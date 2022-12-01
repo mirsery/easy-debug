@@ -1,16 +1,17 @@
 package com.mirsery.easy;
 
+
 import com.mirsery.easy.listener.CloseListener;
 import com.mirsery.easy.listener.DataListener;
+import com.mirsery.easy.listener.DefaultReconnectListener;
 import com.mirsery.easy.listener.OpenListener;
-import com.mirsery.easy.listener.ReconnectEvent;
-import java.net.URI;
-import java.util.List;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.exceptions.WebsocketNotConnectedException;
 import org.java_websocket.handshake.ServerHandshake;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.net.URI;
 
 
 public final class IotClient extends WebSocketClient {
@@ -21,29 +22,47 @@ public final class IotClient extends WebSocketClient {
         super(serverUri);
     }
 
-    private List<DataListener> dataListeners = null;
+    /**
+     * 0 normal
+     * 1 reconnecting
+     */
+    private int state = 0;
+
+    private DataListener dataListener = null;
 
     private CloseListener closeListener = null;
 
     private OpenListener openListener = null;
 
-    private ReconnectEvent reconnectListener = null;
+    private DefaultReconnectListener reconnectListener = null;
 
-    public void setDataListeners(List<DataListener> dataListeners) {
-        this.dataListeners = dataListeners;
+    public void setDataListener(DataListener dataListener) {
+        this.dataListener = dataListener;
     }
 
     public void setCloseListener(CloseListener closeListener) {
         this.closeListener = closeListener;
     }
 
+    public void setReconnectListener(DefaultReconnectListener reconnectListener) {
+        this.reconnectListener = reconnectListener;
+    }
+
     public void setOpenListener(OpenListener openListener) {
         this.openListener = openListener;
     }
 
+    public int getState() {
+        return state;
+    }
+
+    public synchronized void setState(int state) {
+        this.state = state;
+    }
+
     @Override
     public void onOpen(ServerHandshake handshake) {
-        if (openListener!=null) {
+        if (openListener != null) {
             openListener.onOpen(this);
         }
     }
@@ -52,36 +71,38 @@ public final class IotClient extends WebSocketClient {
         try {
             super.send(message);
         } catch (WebsocketNotConnectedException ws) {
+            this.doReconnect();
+        }
+    }
+
+    private void doReconnect() {
+        if (reconnectListener != null) {
             reconnectListener.onReconnect(this);
         }
     }
 
     @Override
     public void onMessage(String message) {
-        logger.info("[read] " + message);
-        if (dataListeners==null) {
-            return;
+        if (dataListener != null) {
+            dataListener.onData(message, this);
         }
     }
 
     @Override
     public void onClose(int code, String reason, boolean remote) {
-
-        if (reconnectListener!=null) {
-            reconnectListener.onReconnect(this);
-        }
-        if (closeListener==null) {
-            return;
+        this.doReconnect();
+        if (closeListener != null) {
+            closeListener.onClose(code, reason, remote);
         }
     }
 
     @Override
     public void onError(Exception ex) {
-        logger.error(ex.getMessage());
+//        logger.error(ex.getMessage());
     }
 
     public synchronized void clearListener() {
-        dataListeners = null;
+        dataListener = null;
         closeListener = null;
         openListener = null;
         reconnectListener = null;
