@@ -115,7 +115,7 @@ public class BodyJPanel extends JPanel {
                     client.connect();
                     this.connectBtn.setText("disconnect");
                 } catch (URISyntaxException ex) {
-                    noticeJPanel.recordMessage("url格式不正确，请核实后输入");
+                    noticeJPanel.recordMessage("url is incorrect,please check it !");
                 }
             } else {
                 client.close();

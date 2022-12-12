@@ -25,36 +25,22 @@ public class MainFrame extends JFrame {
 
         this.setResizable(true);
 
+        SpringLayout layout = new SpringLayout();
 
+        layout.putConstraint(SpringLayout.NORTH, noticeJPanel, 5, SpringLayout.NORTH, this);
+        layout.putConstraint(SpringLayout.WEST, noticeJPanel, 5, SpringLayout.WEST, this);
+        layout.putConstraint(SpringLayout.EAST, noticeJPanel, -5, SpringLayout.EAST, this);
 
-        GridBagLayout bagLayout = new GridBagLayout();
-        JPanel jPanel = new JPanel(bagLayout);
+        layout.putConstraint(SpringLayout.SOUTH, noticeJPanel, -5, SpringLayout.NORTH, bodyJPanel);
+        layout.putConstraint(SpringLayout.SOUTH, bodyJPanel, -5, SpringLayout.SOUTH, this);
 
-        GridBagConstraints c = null;
+        this.getContentPane().add(noticeJPanel);
+        this.getContentPane().add(bodyJPanel);
 
-        c = new GridBagConstraints();
-        c.gridwidth = GridBagConstraints.REMAINDER;
-        c.fill = GridBagConstraints.BOTH;
-        bagLayout.addLayoutComponent(noticeJPanel,c);
-
-
-        c = new GridBagConstraints();
-        c.gridwidth = GridBagConstraints.REMAINDER;
-        c.fill = GridBagConstraints.BOTH;
-        bagLayout.addLayoutComponent(bodyJPanel,c);
-
-//        noticeJPanel.setSize(880, 400);
-//        bodyJPanel.setSize(880, 200);
-
-        jPanel.add(noticeJPanel);
-        jPanel.add(bodyJPanel);
-
-        this.getContentPane().add(jPanel);
-
-        this.pack();
+//        this.pack();
         this.setLocationRelativeTo(null);
 
-        this.setLayout(bagLayout);
+//        this.setLayout(layout);
         this.setVisible(true);
     }
 
