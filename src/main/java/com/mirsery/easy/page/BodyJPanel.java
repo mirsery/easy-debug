@@ -30,7 +30,6 @@ public class BodyJPanel extends JPanel {
 
     private JLabel protocolLab = new JLabel("Protocol: ");
 
-
     private final JRadioButton wsProtocol = new JRadioButton("ws", true);
 
     private final JRadioButton wssProtocol = new JRadioButton("wss");
@@ -48,14 +47,52 @@ public class BodyJPanel extends JPanel {
         group.add(wsProtocol);
         group.add(wssProtocol);
 
+        GridBagLayout gridBagLayout = new GridBagLayout();
+        GridBagConstraints c = null;
+
+        c = new GridBagConstraints();
+        gridBagLayout.addLayoutComponent(serverAddressLab, c);
+
+        c = new GridBagConstraints();
+        gridBagLayout.addLayoutComponent(jTextField, c);
+        jTextField.setPreferredSize(new Dimension(200,20));
+
+        c = new GridBagConstraints();
+        gridBagLayout.addLayoutComponent(protocolLab, c);
+
+        c = new GridBagConstraints();
+        gridBagLayout.addLayoutComponent(wsProtocol, c);
+
+        c = new GridBagConstraints();
+        gridBagLayout.addLayoutComponent(wssProtocol, c);
+
+        c = new GridBagConstraints();
+        c.gridwidth = GridBagConstraints.REMAINDER;
+        c.fill = GridBagConstraints.BOTH;
+        gridBagLayout.addLayoutComponent(connectBtn, c);
+
+
+        c = new GridBagConstraints();
+        c.gridwidth = GridBagConstraints.RELATIVE;
+        c.fill = GridBagConstraints.BOTH;
+        gridBagLayout.addLayoutComponent(content, c);
+
+        c = new GridBagConstraints();
+        c.gridwidth = GridBagConstraints.REMAINDER;
+        gridBagLayout.addLayoutComponent(sendBtn, c);
+
+
         this.add(serverAddressLab);
         this.add(jTextField);
         this.add(protocolLab);
         this.add(wsProtocol);
         this.add(wssProtocol);
         this.add(connectBtn);
+
         this.add(content);
         this.add(sendBtn);
+
+        this.setLayout(gridBagLayout);
 
         initListener();
     }
