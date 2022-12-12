@@ -1,6 +1,5 @@
 package com.mirsery.easy.listener;
 
-import com.mirsery.easy.bean.IotClient;
 import com.mirsery.easy.event.ws.*;
 import com.mirsery.easy.page.NoticeJPanel;
 import org.springframework.context.event.EventListener;
@@ -12,9 +11,6 @@ import java.util.Date;
 
 @Component
 public class WsListener {
-
-    @Resource
-    private IotClient iotClient;
 
     @Resource
     private NoticeJPanel noticeJPanel;
@@ -48,7 +44,6 @@ public class WsListener {
      ***/
     @EventListener(SendEvent.class)
     public void sendMessage(SendEvent event) {
-        iotClient.send(event.getMessage());
         noticeJPanel.recordMessage(getCurrentTime(event.getTimestamp()) + " [send] " + event.getMessage());
     }
 
