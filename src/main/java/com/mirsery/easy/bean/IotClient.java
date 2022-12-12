@@ -1,7 +1,9 @@
-package com.mirsery.easy;
+package com.mirsery.easy.bean;
 
 
 import java.net.URI;
+
+import com.mirsery.easy.event.ws.*;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.exceptions.WebsocketNotConnectedException;
 import org.java_websocket.handshake.ServerHandshake;
@@ -15,6 +17,10 @@ public class IotClient extends WebSocketClient {
 
     private ApplicationEventPublisher applicationEventPublisher;
 
+    public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
+        this.applicationEventPublisher = applicationEventPublisher;
+    }
+
     public IotClient(URI serverUri) {
         super(serverUri);
     }
@@ -27,30 +33,36 @@ public class IotClient extends WebSocketClient {
 
     @Override
     public void onOpen(ServerHandshake handshake) {
-
+        applicationEventPublisher.publishEvent(new OpenEvent("[OnOpen]"));
     }
 
     public void send(String message) {
         try {
             super.send(message);
+            SendEvent sendEvent = new SendEvent("[send]");
+            sendEvent.setMessage(message);
+            applicationEventPublisher.publishEvent(sendEvent);
         } catch (WebsocketNotConnectedException ws) {
-
+            applicationEventPublisher.publishEvent(new NotConnectedEvent("[send]"));
         }
     }
 
 
     @Override
     public void onMessage(String message) {
-
+        MessageEvent messageEvent = new MessageEvent("[onMessage]");
+        messageEvent.setMessage(message);
+        applicationEventPublisher.publishEvent(messageEvent);
     }
 
     @Override
     public void onClose(int code, String reason, boolean remote) {
-
+        applicationEventPublisher.publishEvent(new CloseEvent("[onClose]"));
     }
 
     @Override
     public void onError(Exception ex) {
+        //TODO
     }
 
 }

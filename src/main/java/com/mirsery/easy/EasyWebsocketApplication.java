@@ -1,5 +1,6 @@
 package com.mirsery.easy;
 
+import com.mirsery.easy.page.MainFrame;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -13,6 +14,7 @@ public class EasyWebsocketApplication {
                 EasyWebsocketApplication.class);
         ApplicationContext context = builder.headless(false).web(WebApplicationType.NONE).run(args);
 
-
+        MainFrame mainFrame = context.getBean(MainFrame.class);
+        mainFrame.init();
     }
 }
