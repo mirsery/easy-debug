@@ -1,7 +1,6 @@
 package com.mirsery.easy.listener;
 
 import com.mirsery.easy.event.ws.*;
-import com.mirsery.easy.page.NoticeJPanel;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
@@ -13,30 +12,30 @@ import java.util.Date;
 public class WsListener {
 
     @Resource
-    private NoticeJPanel noticeJPanel;
+    private Notice notice;
 
     @EventListener(OpenEvent.class)
     public void onOpen(OpenEvent event) {
-        noticeJPanel.recordMessage(getCurrentTime(event.getTimestamp()) + " connect to the server success.");
+        notice.recordMessage(getCurrentTime(event.getTimestamp()) + " connect to the server success.");
     }
 
 
     @EventListener(CloseEvent.class)
     public void onClose(CloseEvent event) {
-        noticeJPanel.recordMessage(getCurrentTime(event.getTimestamp()) + " server close the channel.");
+        notice.recordMessage(getCurrentTime(event.getTimestamp()) + " server close the channel.");
     }
 
 
     @EventListener(MessageEvent.class)
     public void onMessage(MessageEvent event) {
 
-        noticeJPanel.recordMessage(getCurrentTime(event.getTimestamp()) + " [receive] " + event.getMessage());
+        notice.recordMessage(getCurrentTime(event.getTimestamp()) + " [receive] " + event.getMessage());
     }
 
 
     @EventListener(NotConnectedEvent.class)
     public void NotConnected(NotConnectedEvent event) {
-        noticeJPanel.recordMessage(getCurrentTime(event.getTimestamp()) + " not connect the server.");
+        notice.recordMessage(getCurrentTime(event.getTimestamp()) + " not connect the server.");
     }
 
     /**
@@ -44,7 +43,7 @@ public class WsListener {
      ***/
     @EventListener(SendEvent.class)
     public void sendMessage(SendEvent event) {
-        noticeJPanel.recordMessage(getCurrentTime(event.getTimestamp()) + " [send] " + event.getMessage());
+        notice.recordMessage(getCurrentTime(event.getTimestamp()) + " [send] " + event.getMessage());
     }
 
     public String getCurrentTime(long timestamp) {
