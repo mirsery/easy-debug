@@ -33,10 +33,12 @@ public class IotClient extends WebSocketClient {
 
     @Override
     public void onOpen(ServerHandshake handshake) {
+        if (applicationEventPublisher == null) return;
         applicationEventPublisher.publishEvent(new OpenEvent("[OnOpen]"));
     }
 
     public void send(String message) {
+        if (applicationEventPublisher == null) return;
         try {
             super.send(message);
             SendEvent sendEvent = new SendEvent("[send]");
@@ -50,6 +52,7 @@ public class IotClient extends WebSocketClient {
 
     @Override
     public void onMessage(String message) {
+        if (applicationEventPublisher == null) return;
         MessageEvent messageEvent = new MessageEvent("[onMessage]");
         messageEvent.setMessage(message);
         applicationEventPublisher.publishEvent(messageEvent);
@@ -57,12 +60,17 @@ public class IotClient extends WebSocketClient {
 
     @Override
     public void onClose(int code, String reason, boolean remote) {
+        if (applicationEventPublisher == null) return;
         applicationEventPublisher.publishEvent(new CloseEvent("[onClose]"));
     }
 
     @Override
     public void onError(Exception ex) {
         //TODO
+    }
+
+    public synchronized void clear() {
+        applicationEventPublisher = null;
     }
 
 }
