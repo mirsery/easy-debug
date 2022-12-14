@@ -58,43 +58,63 @@ public class BodyJPanel extends JPanel {
 
         SpringLayout springLayout = new SpringLayout();
 
+        area.setEditable(false);
+
         springLayout.putConstraint(SpringLayout.NORTH, area, 5, SpringLayout.NORTH, this);
         springLayout.putConstraint(SpringLayout.WEST, area, 5, SpringLayout.WEST, this);
         springLayout.putConstraint(SpringLayout.EAST, area, -5, SpringLayout.EAST, this);
+
+//        springLayout.putConstraint(SpringLayout.SOUTH, area, -5,SpringLayout.NORTH, jButton);
 
         springLayout.putConstraint(SpringLayout.NORTH, jButton, 5, SpringLayout.SOUTH, area);
         springLayout.putConstraint(SpringLayout.EAST, jButton, -20, SpringLayout.EAST, this);
         springLayout.putConstraint(SpringLayout.WEST, jButton, 20, SpringLayout.WEST, this);
 
 
-        springLayout.putConstraint(SpringLayout.WEST, serverAddressLab, 5, SpringLayout.WEST, this);
         springLayout.putConstraint(SpringLayout.NORTH, serverAddressLab, 10, SpringLayout.SOUTH, jButton);
-        jTextField.setPreferredSize(new Dimension(200, 20));
-        springLayout.putConstraint(SpringLayout.NORTH, jTextField, 10, SpringLayout.SOUTH, jButton);
-        springLayout.putConstraint(SpringLayout.WEST, jTextField, 5, SpringLayout.EAST, serverAddressLab);
         springLayout.putConstraint(SpringLayout.NORTH, protocolLab, 10, SpringLayout.SOUTH, jButton);
         springLayout.putConstraint(SpringLayout.NORTH, wsProtocol, 10, SpringLayout.SOUTH, jButton);
         springLayout.putConstraint(SpringLayout.NORTH, wssProtocol, 10, SpringLayout.SOUTH, jButton);
         springLayout.putConstraint(SpringLayout.NORTH, connectBtn, 10, SpringLayout.SOUTH, jButton);
 
-        springLayout.putConstraint(SpringLayout.WEST, protocolLab, 10, SpringLayout.EAST, jTextField);
-        springLayout.putConstraint(SpringLayout.WEST, wsProtocol, 4, SpringLayout.EAST, protocolLab);
-        springLayout.putConstraint(SpringLayout.WEST, wssProtocol, 4, SpringLayout.EAST, wsProtocol);
-        springLayout.putConstraint(SpringLayout.WEST, connectBtn, 5, SpringLayout.EAST, wssProtocol);
-
-        springLayout.putConstraint(SpringLayout.VERTICAL_CENTER, serverAddressLab, 0, SpringLayout.VERTICAL_CENTER, jTextField);
-        springLayout.putConstraint(SpringLayout.VERTICAL_CENTER, protocolLab, 0, SpringLayout.VERTICAL_CENTER, jTextField);
-        springLayout.putConstraint(SpringLayout.VERTICAL_CENTER, wsProtocol, 0, SpringLayout.VERTICAL_CENTER, protocolLab);
-        springLayout.putConstraint(SpringLayout.VERTICAL_CENTER, wssProtocol, 0, SpringLayout.VERTICAL_CENTER, wsProtocol);
-        springLayout.putConstraint(SpringLayout.VERTICAL_CENTER, connectBtn, 0, SpringLayout.VERTICAL_CENTER, wssProtocol);
+        springLayout.putConstraint(SpringLayout.WEST, serverAddressLab, 5, SpringLayout.WEST, this);
+        jTextField.setPreferredSize(new Dimension(300, 20));
+        springLayout.putConstraint(SpringLayout.NORTH, jTextField, 10, SpringLayout.SOUTH, jButton);
+        springLayout.putConstraint(SpringLayout.WEST, jTextField, 5, SpringLayout.EAST, serverAddressLab);
 
 
-        springLayout.putConstraint(SpringLayout.NORTH, content, 10, SpringLayout.SOUTH, serverAddressLab);
+        springLayout.putConstraint(SpringLayout.WEST, protocolLab, 10, SpringLayout.EAST,
+                                   jTextField);
+        springLayout.putConstraint(SpringLayout.WEST, wsProtocol, 4, SpringLayout.EAST,
+                                   protocolLab);
+        springLayout.putConstraint(SpringLayout.WEST, wssProtocol, 4, SpringLayout.EAST,
+                                   wsProtocol);
+        springLayout.putConstraint(SpringLayout.WEST, connectBtn, 5, SpringLayout.EAST,
+                                   wssProtocol);
+
+        springLayout.putConstraint(SpringLayout.VERTICAL_CENTER, serverAddressLab, 0,
+                                   SpringLayout.VERTICAL_CENTER, jTextField);
+        springLayout.putConstraint(SpringLayout.VERTICAL_CENTER, protocolLab, 0,
+                                   SpringLayout.VERTICAL_CENTER, jTextField);
+        springLayout.putConstraint(SpringLayout.VERTICAL_CENTER, wsProtocol, 0,
+                                   SpringLayout.VERTICAL_CENTER, protocolLab);
+        springLayout.putConstraint(SpringLayout.VERTICAL_CENTER, wssProtocol, 0,
+                                   SpringLayout.VERTICAL_CENTER, wsProtocol);
+        springLayout.putConstraint(SpringLayout.VERTICAL_CENTER, connectBtn, 0,
+                                   SpringLayout.VERTICAL_CENTER, wssProtocol);
+
+        springLayout.putConstraint(SpringLayout.NORTH, content, 10, SpringLayout.SOUTH,
+                                   serverAddressLab);
         springLayout.putConstraint(SpringLayout.WEST, content, 5, SpringLayout.WEST, this);
+        springLayout.putConstraint(SpringLayout.SOUTH, content, -10, SpringLayout.SOUTH, this);
 
-        springLayout.putConstraint(SpringLayout.WEST, sendBtn, 20, SpringLayout.EAST, content);
-        springLayout.putConstraint(SpringLayout.VERTICAL_CENTER, sendBtn, 0, SpringLayout.VERTICAL_CENTER, content);
-        springLayout.putConstraint(SpringLayout.NORTH, sendBtn, 10, SpringLayout.SOUTH, serverAddressLab);
+        springLayout.putConstraint(SpringLayout.EAST, content, -20, SpringLayout.WEST, sendBtn);
+
+        springLayout.putConstraint(SpringLayout.VERTICAL_CENTER, sendBtn, 0,
+                                   SpringLayout.VERTICAL_CENTER, content);
+        springLayout.putConstraint(SpringLayout.NORTH, sendBtn, 10, SpringLayout.SOUTH,
+                                   serverAddressLab);
+        springLayout.putConstraint(SpringLayout.EAST, sendBtn, -10, SpringLayout.EAST, this);
 
         this.setLayout(springLayout);
     }
@@ -122,7 +142,6 @@ public class BodyJPanel extends JPanel {
         jButton.addActionListener(e -> {
             this.area.setText("");
         });
-
 
         connectBtn.addActionListener(e -> {
 
@@ -154,7 +173,6 @@ public class BodyJPanel extends JPanel {
             }
 
         });
-
 
         sendBtn.addActionListener(e -> client.send(content.getText().trim()));
 
