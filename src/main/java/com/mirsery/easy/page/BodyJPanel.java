@@ -64,61 +64,74 @@ public class BodyJPanel extends JPanel {
         springLayout.putConstraint(SpringLayout.WEST, area, 5, SpringLayout.WEST, this);
         springLayout.putConstraint(SpringLayout.EAST, area, -5, SpringLayout.EAST, this);
 
-        springLayout.putConstraint(SpringLayout.SOUTH, area, -10, SpringLayout.NORTH, jButton);
-        springLayout.putConstraint(SpringLayout.EAST, jButton, -20, SpringLayout.EAST, this);
-        springLayout.putConstraint(SpringLayout.WEST, jButton, 20, SpringLayout.WEST, this);
-        springLayout.putConstraint(SpringLayout.SOUTH, jButton, -10, SpringLayout.NORTH,
-                                   serverAddressLab);
+        springLayout.putConstraint(SpringLayout.SOUTH, area, -10, SpringLayout.NORTH, serverAddressLab);
 
-        springLayout.putConstraint(SpringLayout.SOUTH, serverAddressLab, -10, SpringLayout.NORTH,
-                                   content);
-        springLayout.putConstraint(SpringLayout.SOUTH, protocolLab, -10, SpringLayout.NORTH,
-                                   content);
-        springLayout.putConstraint(SpringLayout.SOUTH, wsProtocol, -10, SpringLayout.NORTH,
-                                   content);
-        springLayout.putConstraint(SpringLayout.SOUTH, wssProtocol, -10, SpringLayout.NORTH,
-                                   content);
-        springLayout.putConstraint(SpringLayout.SOUTH, connectBtn, -10, SpringLayout.NORTH,
-                                   content);
-        springLayout.putConstraint(SpringLayout.SOUTH, jTextField, -10, SpringLayout.NORTH,
-                                   content);
-
-        springLayout.putConstraint(SpringLayout.WEST, serverAddressLab, 5, SpringLayout.WEST, this);
+        springLayout.putConstraint(SpringLayout.WEST, serverAddressLab, 10, SpringLayout.WEST, this);
         jTextField.setPreferredSize(new Dimension(300, 20));
+        springLayout.putConstraint(SpringLayout.WEST, jTextField, 5, SpringLayout.EAST, serverAddressLab);
+        springLayout.putConstraint(SpringLayout.EAST, jTextField, -20, SpringLayout.EAST, this);
 
-        springLayout.putConstraint(SpringLayout.WEST, jTextField, 5, SpringLayout.EAST,
-                                   serverAddressLab);
+        springLayout.putConstraint(SpringLayout.SOUTH, jTextField, -10, SpringLayout.NORTH, protocolLab);
+        springLayout.putConstraint(SpringLayout.SOUTH, jTextField, -10, SpringLayout.NORTH, wsProtocol);
+        springLayout.putConstraint(SpringLayout.SOUTH, jTextField, -10, SpringLayout.NORTH, wssProtocol);
+        springLayout.putConstraint(SpringLayout.SOUTH, jTextField, -10, SpringLayout.NORTH, connectBtn);
+        springLayout.putConstraint(SpringLayout.SOUTH, jTextField, -10, SpringLayout.NORTH, jButton);
 
-        springLayout.putConstraint(SpringLayout.WEST, protocolLab, 10, SpringLayout.EAST,
-                                   jTextField);
+        springLayout.putConstraint(SpringLayout.SOUTH, serverAddressLab, -10, SpringLayout.NORTH, protocolLab);
+        springLayout.putConstraint(SpringLayout.SOUTH, serverAddressLab, -10, SpringLayout.NORTH, wsProtocol);
+        springLayout.putConstraint(SpringLayout.SOUTH, serverAddressLab, -10, SpringLayout.NORTH, wssProtocol);
+        springLayout.putConstraint(SpringLayout.SOUTH, serverAddressLab, -10, SpringLayout.NORTH, connectBtn);
+        springLayout.putConstraint(SpringLayout.SOUTH, serverAddressLab, -10, SpringLayout.NORTH, jButton);
+
+
+        springLayout.putConstraint(SpringLayout.WEST, protocolLab, 10, SpringLayout.WEST,
+                this);
         springLayout.putConstraint(SpringLayout.WEST, wsProtocol, 4, SpringLayout.EAST,
-                                   protocolLab);
+                protocolLab);
         springLayout.putConstraint(SpringLayout.WEST, wssProtocol, 4, SpringLayout.EAST,
-                                   wsProtocol);
+                wsProtocol);
         springLayout.putConstraint(SpringLayout.WEST, connectBtn, 5, SpringLayout.EAST,
-                                   wssProtocol);
+                wssProtocol);
+        springLayout.putConstraint(SpringLayout.WEST, jButton, 5, SpringLayout.EAST,
+                connectBtn);
 
+        /*
+         * 水平对齐
+         * **/
         springLayout.putConstraint(SpringLayout.VERTICAL_CENTER, serverAddressLab, 0,
-                                   SpringLayout.VERTICAL_CENTER, jTextField);
-        springLayout.putConstraint(SpringLayout.VERTICAL_CENTER, protocolLab, 0,
-                                   SpringLayout.VERTICAL_CENTER, jTextField);
-        springLayout.putConstraint(SpringLayout.VERTICAL_CENTER, wsProtocol, 0,
-                                   SpringLayout.VERTICAL_CENTER, protocolLab);
-        springLayout.putConstraint(SpringLayout.VERTICAL_CENTER, wssProtocol, 0,
-                                   SpringLayout.VERTICAL_CENTER, wsProtocol);
-        springLayout.putConstraint(SpringLayout.VERTICAL_CENTER, connectBtn, 0,
-                                   SpringLayout.VERTICAL_CENTER, wssProtocol);
-        springLayout.putConstraint(SpringLayout.SOUTH, serverAddressLab, -10, SpringLayout.NORTH,
-                                   content);
-        springLayout.putConstraint(SpringLayout.WEST, content, 5, SpringLayout.WEST, this);
+                SpringLayout.VERTICAL_CENTER, jTextField);
 
+        /*
+         * 水平对齐
+         * **/
+        springLayout.putConstraint(SpringLayout.VERTICAL_CENTER, wsProtocol, 0,
+                SpringLayout.VERTICAL_CENTER, protocolLab);
+        springLayout.putConstraint(SpringLayout.VERTICAL_CENTER, wssProtocol, 0,
+                SpringLayout.VERTICAL_CENTER, wsProtocol);
+        springLayout.putConstraint(SpringLayout.VERTICAL_CENTER, connectBtn, 0,
+                SpringLayout.VERTICAL_CENTER, wssProtocol);
+        springLayout.putConstraint(SpringLayout.VERTICAL_CENTER, jButton, 0,
+                SpringLayout.VERTICAL_CENTER, connectBtn);
+
+        springLayout.putConstraint(SpringLayout.SOUTH, protocolLab, -10, SpringLayout.NORTH,
+                content);
+        springLayout.putConstraint(SpringLayout.SOUTH, wsProtocol, -10, SpringLayout.NORTH,
+                content);
+        springLayout.putConstraint(SpringLayout.SOUTH, wssProtocol, -10, SpringLayout.NORTH,
+                content);
+        springLayout.putConstraint(SpringLayout.SOUTH, connectBtn, -10, SpringLayout.NORTH,
+                content);
+        springLayout.putConstraint(SpringLayout.SOUTH, jButton, -10, SpringLayout.NORTH,
+                content);
+
+
+        springLayout.putConstraint(SpringLayout.WEST, content, 5, SpringLayout.WEST, this);
         springLayout.putConstraint(SpringLayout.SOUTH, content, -10, SpringLayout.SOUTH, this);
         springLayout.putConstraint(SpringLayout.EAST, content, -20, SpringLayout.WEST, sendBtn);
         springLayout.putConstraint(SpringLayout.VERTICAL_CENTER, sendBtn, 0,
-                                   SpringLayout.VERTICAL_CENTER, content);
+                SpringLayout.VERTICAL_CENTER, content);
 
-        springLayout.putConstraint(SpringLayout.NORTH, sendBtn, 10, SpringLayout.SOUTH,
-                                   serverAddressLab);
+
         springLayout.putConstraint(SpringLayout.EAST, sendBtn, -10, SpringLayout.EAST, this);
 
         this.setLayout(springLayout);

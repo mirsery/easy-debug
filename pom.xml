@@ -12,7 +12,7 @@
 
   <groupId>org.example</groupId>
   <artifactId>easy-websocket</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
 
   <name>easy-websocket</name>
   <url>https://github.com/mirsery/easy-websocket.git</url>
