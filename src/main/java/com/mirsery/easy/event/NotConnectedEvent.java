@@ -1,4 +1,4 @@
-package com.mirsery.easy.event.ws;
+package com.mirsery.easy.event;
 
 import org.springframework.context.ApplicationEvent;
 

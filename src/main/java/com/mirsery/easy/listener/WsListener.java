@@ -1,6 +1,6 @@
 package com.mirsery.easy.listener;
 
-import com.mirsery.easy.event.ws.*;
+import com.mirsery.easy.event.*;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
