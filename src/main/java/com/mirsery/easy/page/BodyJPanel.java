@@ -1,5 +1,6 @@
 package com.mirsery.easy.page;
 
+import com.formdev.flatlaf.intellijthemes.FlatDraculaIJTheme;
 import com.mirsery.easy.bean.EasyClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +10,7 @@ import javax.annotation.Resource;
 import javax.swing.*;
 import java.awt.*;
 import java.net.URISyntaxException;
+
 
 /**
  * easy-websocket
@@ -55,6 +57,10 @@ public class BodyJPanel extends JPanel {
     }
 
     private void loadLayout() {
+
+
+        FlatDraculaIJTheme.setup();
+
 
         SpringLayout springLayout = new SpringLayout();
 

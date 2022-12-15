@@ -1,11 +1,11 @@
 package com.mirsery.easy.page;
 
-import java.awt.Dimension;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import javax.swing.*;
+import java.awt.*;
 
 
 @Component
