@@ -1,7 +1,9 @@
 package com.mirsery.easy.listener;
 
 import com.mirsery.easy.event.*;
+import org.springframework.context.MessageSource;
 import org.springframework.context.event.EventListener;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -14,28 +16,34 @@ public class WsListener {
     @Resource
     private Notice notice;
 
+    @Resource
+    private MessageSource messageSource;
+
     @EventListener(OpenEvent.class)
     public void onOpen(OpenEvent event) {
-        notice.recordMessage(getCurrentTime(event.getTimestamp()) + " connect to the server success.");
+        notice.recordMessage(getCurrentTime(event.getTimestamp()) + " " +
+                messageSource.getMessage("connectServerSuccess", null, LocaleContextHolder.getLocale()));
     }
 
 
     @EventListener(CloseEvent.class)
     public void onClose(CloseEvent event) {
-        notice.recordMessage(getCurrentTime(event.getTimestamp()) + " server close the channel.");
+        notice.recordMessage(getCurrentTime(event.getTimestamp()) + " " + messageSource.getMessage("serverClose", null, LocaleContextHolder.getLocale()));
     }
 
 
     @EventListener(MessageEvent.class)
     public void onMessage(MessageEvent event) {
 
-        notice.recordMessage(getCurrentTime(event.getTimestamp()) + " [receive] " + event.getMessage());
+        notice.recordMessage(getCurrentTime(event.getTimestamp()) + " " +
+                messageSource.getMessage("receiveNotice", null, LocaleContextHolder.getLocale())
+                + " " + event.getMessage());
     }
 
 
     @EventListener(NotConnectedEvent.class)
     public void NotConnected(NotConnectedEvent event) {
-        notice.recordMessage(getCurrentTime(event.getTimestamp()) + " not connect the server.");
+        notice.recordMessage(getCurrentTime(event.getTimestamp()) + " " + messageSource.getMessage("noConnect", null, LocaleContextHolder.getLocale()));
     }
 
     /**
@@ -43,7 +51,9 @@ public class WsListener {
      ***/
     @EventListener(SendEvent.class)
     public void sendMessage(SendEvent event) {
-        notice.recordMessage(getCurrentTime(event.getTimestamp()) + " [send] " + event.getMessage());
+        notice.recordMessage(getCurrentTime(event.getTimestamp()) + " " +
+                messageSource.getMessage("sendNotice", null, LocaleContextHolder.getLocale())
+                + " " + event.getMessage());
     }
 
     public String getCurrentTime(long timestamp) {

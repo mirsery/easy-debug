@@ -2,11 +2,9 @@ package com.mirsery.easy.page;
 
 import com.formdev.flatlaf.intellijthemes.FlatDraculaIJTheme;
 import com.mirsery.easy.bean.EasyClient;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 
-import javax.annotation.Resource;
 import javax.swing.*;
 import java.awt.*;
 import java.net.URISyntaxException;
@@ -18,39 +16,38 @@ import java.net.URISyntaxException;
  * @author mirsery
  * @date 2022/12/11
  */
-@Component
 public class BodyJPanel extends JPanel {
 
-    @Resource
     private EasyClient client;
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private MessageSource messageSource;
 
-    private final TextArea area = new TextArea("");
+    private TextArea area;
 
-    private final JButton jButton = new JButton("clear");
+    private JButton jButton;
 
-    private JLabel serverAddressLab = new JLabel("server address: ");
+    private JLabel serverAddressLab;
 
-    private JTextField jTextField = new JTextField("127.0.0.1");
+    private JTextField jTextField;
 
-    private JLabel protocolLab = new JLabel("Protocol: ");
+    private JLabel protocolLab;
 
-    private final JRadioButton wsProtocol = new JRadioButton("ws", true);
+    private JRadioButton wsProtocol;
 
-    private final JRadioButton wssProtocol = new JRadioButton("wss");
+    private JRadioButton wssProtocol;
 
-    private final ButtonGroup group = new ButtonGroup();
+    private ButtonGroup group;
 
-    private JButton connectBtn = new JButton("connect");
+    private JButton connectBtn;
+    private int connectValue;
 
-    private TextArea content = new TextArea("");
+    private TextArea content;
 
-    private JButton sendBtn = new JButton("send");
+    private JButton sendBtn;
 
-    public BodyJPanel() {
-        group.add(wsProtocol);
-        group.add(wssProtocol);
+    public BodyJPanel(EasyClient client, MessageSource messageSource) {
+        this.client = client;
+        this.messageSource = messageSource;
         loadLayout();
         loadComponent();
         loadListener();
@@ -58,13 +55,37 @@ public class BodyJPanel extends JPanel {
 
     private void loadLayout() {
 
+        area = new TextArea("");
+
+        jButton = new JButton(messageSource.getMessage("clear", null, LocaleContextHolder.getLocale()));
+
+        serverAddressLab = new JLabel(messageSource.getMessage("serverAddressDesc", null, LocaleContextHolder.getLocale()));
+
+        jTextField = new JTextField("127.0.0.1");
+
+        protocolLab = new JLabel(messageSource.getMessage("protocol", null, LocaleContextHolder.getLocale()));
+
+        wsProtocol = new JRadioButton("ws", true);
+
+        wssProtocol = new JRadioButton("wss");
+
+        group = new ButtonGroup();
+
+        connectBtn = new JButton(messageSource.getMessage("connect", null, LocaleContextHolder.getLocale()));
+        connectValue = 0;
+
+        content = new TextArea("");
+
+        sendBtn = new JButton(messageSource.getMessage("send", null, LocaleContextHolder.getLocale()));
+
+        group.add(wsProtocol);
+        group.add(wssProtocol);
 
         FlatDraculaIJTheme.setup();
 
-
         SpringLayout springLayout = new SpringLayout();
-
         area.setEditable(false);
+        area.setFocusable(false);
 
         springLayout.putConstraint(SpringLayout.NORTH, area, 5, SpringLayout.NORTH, this);
         springLayout.putConstraint(SpringLayout.WEST, area, 5, SpringLayout.WEST, this);
@@ -131,14 +152,16 @@ public class BodyJPanel extends JPanel {
                 content);
 
 
+        springLayout.putConstraint(SpringLayout.HEIGHT, content, 20, SpringLayout.HEIGHT, sendBtn);
+
         springLayout.putConstraint(SpringLayout.WEST, content, 5, SpringLayout.WEST, this);
         springLayout.putConstraint(SpringLayout.SOUTH, content, -10, SpringLayout.SOUTH, this);
         springLayout.putConstraint(SpringLayout.EAST, content, -20, SpringLayout.WEST, sendBtn);
         springLayout.putConstraint(SpringLayout.VERTICAL_CENTER, sendBtn, 0,
                 SpringLayout.VERTICAL_CENTER, content);
 
-
         springLayout.putConstraint(SpringLayout.EAST, sendBtn, -10, SpringLayout.EAST, this);
+
 
         this.setLayout(springLayout);
     }
@@ -169,7 +192,8 @@ public class BodyJPanel extends JPanel {
 
         connectBtn.addActionListener(e -> {
 
-            if ("connect".equals(this.connectBtn.getText())) {
+            if (connectValue == 0) {
+                connectValue = 1;
                 String url = jTextField.getText().trim();
                 if (wsProtocol.isSelected()) {
                     url = "ws://" + url;
@@ -180,18 +204,19 @@ public class BodyJPanel extends JPanel {
                 try {
                     client.setUrl(url);
                     client.connect();
-                    this.connectBtn.setText("disconnect");
+                    this.connectBtn.setText(messageSource.getMessage("disconnect", null, LocaleContextHolder.getLocale()));
                 } catch (InterruptedException | URISyntaxException ex) {
 
                     recordMessage("[Error] " + ex.getMessage());
                 }
             } else {
+                connectValue = 0;
                 try {
                     client.close();
                 } catch (InterruptedException ex) {
                     recordMessage("[Error] " + ex.getMessage());
                 } finally {
-                    this.connectBtn.setText("connect");
+                    this.connectBtn.setText(messageSource.getMessage("connect", null, LocaleContextHolder.getLocale()));
                 }
             }
 

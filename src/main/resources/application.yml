@@ -1,5 +1,7 @@
 spring:
   main:
     allow-circular-references: true
+  messages:
+    basename: i18n/messages
 project:
   version: V1.0.1
