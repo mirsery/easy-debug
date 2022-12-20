@@ -1,6 +1,6 @@
 package com.mirsery.easy;
 
-import com.mirsery.easy.bean.EasyClient;
+import com.mirsery.easy.bean.client.EasyClient;
 import com.mirsery.easy.page.BodyJPanel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;

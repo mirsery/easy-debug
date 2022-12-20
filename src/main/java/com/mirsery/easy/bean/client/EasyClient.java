@@ -1,4 +1,4 @@
-package com.mirsery.easy.bean;
+package com.mirsery.easy.bean.client;
 
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
