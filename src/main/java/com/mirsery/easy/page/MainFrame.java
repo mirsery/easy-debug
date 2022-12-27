@@ -1,5 +1,6 @@
 package com.mirsery.easy.page;
 
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +14,7 @@ public class MainFrame extends JFrame {
 
     @Resource
     private BodyJPanel bodyJPanel;
+
 
     @Value("${project.version}")
     private String version;
@@ -32,5 +34,6 @@ public class MainFrame extends JFrame {
 
         this.setVisible(true);
     }
+
 
 }
