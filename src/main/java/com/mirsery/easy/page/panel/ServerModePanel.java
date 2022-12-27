@@ -1,7 +1,9 @@
 package com.mirsery.easy.page.panel;
 
 import com.mirsery.easy.event.page.ModeEvent;
+import com.mirsery.easy.event.page.ModeType;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -18,7 +20,7 @@ import javax.swing.*;
 public class ServerModePanel extends JPanel {
     private JTextArea noticeArea;
 
-    private JComboBox<String> modeSelect;
+    private ModeComBox modeSelect;
 
     private JButton clearBtn;
 
@@ -41,6 +43,9 @@ public class ServerModePanel extends JPanel {
     @Resource
     private ApplicationEventPublisher applicationEventPublisher;
 
+    @Resource
+    private MessageSource messageSource;
+
     public ServerModePanel() {
 
     }
@@ -50,9 +55,9 @@ public class ServerModePanel extends JPanel {
 
         this.noticeArea.setEditable(false);
 
-        this.modeSelect = new JComboBox<>();
-        modeSelect.addItem("clientMode");
-        modeSelect.addItem("serverMode");
+        this.modeSelect = new ModeComBox();
+        this.modeSelect.serverInit(messageSource);
+
         this.clearBtn = new JButton("清屏");
         this.localLabel = new JLabel("本地端口号");
         this.port = new JTextField(" ");
@@ -74,14 +79,18 @@ public class ServerModePanel extends JPanel {
         this.initListener();
     }
 
+    public void reset(){
+        modeSelect.removeAllItems();
+        modeSelect.clientInit(messageSource);
+    }
+
     private void initListener() {
 
         modeSelect.addActionListener(e -> {
-
-            if (modeSelect.getSelectedItem() == "serverMode") return;
-
-            ModeEvent modeEvent = new ModeEvent("serverMode");
-            modeEvent.setTargetMode("clientMode");
+            ModeEvent modeEvent = new ModeEvent(ModeType.serverMode);
+            ModeItem modeItem = (ModeItem)modeSelect.getSelectedItem();
+            if(modeItem == null) return;
+            modeEvent.setTargetMode(modeItem.getValue());
             applicationEventPublisher.publishEvent(modeEvent);
         });
 
@@ -89,7 +98,6 @@ public class ServerModePanel extends JPanel {
 
     private void lodLayout() {
         SpringLayout springLayout = new SpringLayout();
-
 
         springLayout.putConstraint(SpringLayout.NORTH, noticeArea, 5, SpringLayout.NORTH, this);
         springLayout.putConstraint(SpringLayout.WEST, noticeArea, 5, SpringLayout.WEST, this);

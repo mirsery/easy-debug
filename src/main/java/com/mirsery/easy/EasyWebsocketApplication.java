@@ -1,5 +1,6 @@
 package com.mirsery.easy;
 
+import com.formdev.flatlaf.intellijthemes.FlatDraculaIJTheme;
 import com.mirsery.easy.page.MainFrame;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,6 +12,8 @@ import org.springframework.context.ApplicationContext;
 public class EasyWebsocketApplication {
 
     public static void main(String[] args) {
+        FlatDraculaIJTheme.setup();
+
         SpringApplicationBuilder builder = new SpringApplicationBuilder(
                 EasyWebsocketApplication.class);
         ApplicationContext context = builder.headless(false).web(WebApplicationType.NONE).run(args);

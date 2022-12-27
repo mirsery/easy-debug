@@ -1,6 +1,7 @@
 package com.mirsery.easy.page;
 
 
+import com.mirsery.easy.page.panel.CardPanel;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +15,6 @@ public class MainFrame extends JFrame {
 
     @Resource
     private BodyJPanel bodyJPanel;
-
 
     @Value("${project.version}")
     private String version;

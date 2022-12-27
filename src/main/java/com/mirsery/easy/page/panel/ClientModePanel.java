@@ -1,15 +1,13 @@
 package com.mirsery.easy.page.panel;
 
 import com.mirsery.easy.event.page.ModeEvent;
+import com.mirsery.easy.event.page.ModeType;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 
 
 /**
@@ -24,9 +22,12 @@ public class ClientModePanel extends JPanel {
     @Resource
     private ApplicationEventPublisher applicationEventPublisher;
 
+    @Resource
+    private MessageSource messageSource;
+
     private JTextArea noticeArea;
 
-    private JComboBox<String> modeSelect;
+    private ModeComBox modeSelect;
 
     private JButton clearBtn;
 
@@ -51,9 +52,9 @@ public class ClientModePanel extends JPanel {
 
         this.noticeArea.setEditable(false);
 
-        this.modeSelect = new JComboBox<>();
-        modeSelect.addItem("clientMode");
-        modeSelect.addItem("serverMode");
+        this.modeSelect = new ModeComBox();
+        this.modeSelect.clientInit(messageSource);
+
         this.clearBtn = new JButton("清屏");
 
         this.addressLabel = new JLabel("远程服务器地址");
@@ -69,14 +70,18 @@ public class ClientModePanel extends JPanel {
         this.initListener();
     }
 
+    public void reset(){
+        modeSelect.removeAllItems();
+        modeSelect.clientInit(messageSource);
+    }
+
     private void initListener() {
 
         modeSelect.addActionListener(e -> {
-
-            if(modeSelect.getSelectedItem() == "clientMode") return;
-
-            ModeEvent modeEvent = new ModeEvent("clientMode");
-            modeEvent.setTargetMode("serverMode");
+            ModeEvent modeEvent = new ModeEvent(ModeType.clientMode);
+            ModeItem modeItem = (ModeItem)modeSelect.getSelectedItem();
+            if(modeItem == null) return;
+            modeEvent.setTargetMode(modeItem.getValue());
             applicationEventPublisher.publishEvent(modeEvent);
         });
 
