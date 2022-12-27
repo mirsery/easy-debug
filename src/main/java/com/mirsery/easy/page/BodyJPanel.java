@@ -1,8 +1,7 @@
 package com.mirsery.easy.page;
 
+import com.mirsery.easy.ProjectCommon;
 import com.mirsery.easy.bean.client.EasyClient;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +18,7 @@ public class BodyJPanel extends JPanel {
 
     private EasyClient client;
 
-    private MessageSource messageSource;
+    private ProjectCommon common;
 
     private JTextArea area;
 
@@ -44,9 +43,9 @@ public class BodyJPanel extends JPanel {
 
     private JButton sendBtn;
 
-    public BodyJPanel(EasyClient client, MessageSource messageSource) {
+    public BodyJPanel(EasyClient client, ProjectCommon common) {
         this.client = client;
-        this.messageSource = messageSource;
+        this.common = common;
         loadLayout();
         loadComponent();
         loadListener();
@@ -56,13 +55,13 @@ public class BodyJPanel extends JPanel {
 
         area = new JTextArea("");
 
-        jButton = new JButton(messageSource.getMessage("clear", null, LocaleContextHolder.getLocale()));
+        jButton = new JButton(common.getValue(ProjectCommon.clear));
 
-        serverAddressLab = new JLabel(messageSource.getMessage("serverAddressDesc", null, LocaleContextHolder.getLocale()));
+        serverAddressLab = new JLabel(common.getValue(ProjectCommon.serverAddressDesc));
 
         jTextField = new JTextField("127.0.0.1");
 
-        protocolLab = new JLabel(messageSource.getMessage("protocol", null, LocaleContextHolder.getLocale()));
+        protocolLab = new JLabel(common.getValue(ProjectCommon.protocol));
 
         wsProtocol = new JRadioButton("ws", true);
 
@@ -70,12 +69,12 @@ public class BodyJPanel extends JPanel {
 
         group = new ButtonGroup();
 
-        connectBtn = new JButton(messageSource.getMessage("connect", null, LocaleContextHolder.getLocale()));
+        connectBtn = new JButton(common.getValue(ProjectCommon.connect));
         connectValue = 0;
 
         content = new JTextArea("");
 
-        sendBtn = new JButton(messageSource.getMessage("send", null, LocaleContextHolder.getLocale()));
+        sendBtn = new JButton(common.getValue(ProjectCommon.send));
 
         group.add(wsProtocol);
         group.add(wssProtocol);
@@ -189,7 +188,7 @@ public class BodyJPanel extends JPanel {
                 try {
                     client.setUrl(url);
                     client.connect();
-                    this.connectBtn.setText(messageSource.getMessage("disconnect", null, LocaleContextHolder.getLocale()));
+                    this.connectBtn.setText(common.getValue(ProjectCommon.disconnect));
                 } catch (InterruptedException | URISyntaxException ex) {
 
                     recordMessage("[Error] " + ex.getMessage());
@@ -201,7 +200,7 @@ public class BodyJPanel extends JPanel {
                 } catch (InterruptedException ex) {
                     recordMessage("[Error] " + ex.getMessage());
                 } finally {
-                    this.connectBtn.setText(messageSource.getMessage("connect", null, LocaleContextHolder.getLocale()));
+                    this.connectBtn.setText(common.getValue(ProjectCommon.connect));
                 }
             }
 
