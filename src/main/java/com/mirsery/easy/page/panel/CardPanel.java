@@ -1,6 +1,6 @@
 package com.mirsery.easy.page.panel;
 
-import com.mirsery.easy.event.page.ModeType;
+import com.mirsery.easy.ProjectCommon;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -28,9 +28,7 @@ public class CardPanel extends JPanel {
     public void init() {
         clientModePanel.init();
         serverModePanel.init();
-
         loadLayoutAndComponent();
-
     }
 
 
@@ -38,13 +36,13 @@ public class CardPanel extends JPanel {
         cardLayout = new CardLayout(10, 10);
         this.setLayout(cardLayout);
 
-        this.add(ModeType.clientMode, clientModePanel);    //默认显示client模式
-        this.add(ModeType.serverMode, serverModePanel);
+        this.add(ProjectCommon.clientMode, clientModePanel);    //clientMode default
+        this.add(ProjectCommon.serverMode, serverModePanel);
     }
 
     public void showMode(String mode) {
 
-        if (mode.equals(ModeType.clientMode)) {
+        if (mode.equals(ProjectCommon.clientMode)) {
             clientModePanel.reset();
         } else {
             serverModePanel.reset();

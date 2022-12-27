@@ -1,9 +1,8 @@
 package com.mirsery.easy.page.panel;
 
+import com.mirsery.easy.ProjectCommon;
 import com.mirsery.easy.event.page.ModeEvent;
-import com.mirsery.easy.event.page.ModeType;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -23,7 +22,7 @@ public class ClientModePanel extends JPanel {
     private ApplicationEventPublisher applicationEventPublisher;
 
     @Resource
-    private MessageSource messageSource;
+    private ProjectCommon common;
 
     private JTextArea noticeArea;
 
@@ -48,21 +47,21 @@ public class ClientModePanel extends JPanel {
     public void init() {
         this.noticeArea = new JTextArea();
 
-        this.noticeArea = new JTextArea("客户端模式显示区域");
+        this.noticeArea = new JTextArea("");
 
         this.noticeArea.setEditable(false);
 
         this.modeSelect = new ModeComBox();
-        this.modeSelect.clientInit(messageSource);
+        this.modeSelect.clientInit(common);
 
-        this.clearBtn = new JButton("清屏");
+        this.clearBtn = new JButton(common.getValue(ProjectCommon.clear));
 
-        this.addressLabel = new JLabel("远程服务器地址");
+        this.addressLabel = new JLabel(common.getValue(ProjectCommon.serverAddressDesc));
         this.serverAddress = new JTextField(" ");
-        this.startBtn = new JButton("连接");
+        this.startBtn = new JButton(common.getValue(ProjectCommon.connect));
 
         this.content = new JTextArea();
-        this.sendBtn = new JButton("发送");
+        this.sendBtn = new JButton(common.getValue(ProjectCommon.send));
 
         this.lodLayout();
         this.loadComponent();
@@ -70,17 +69,17 @@ public class ClientModePanel extends JPanel {
         this.initListener();
     }
 
-    public void reset(){
+    public void reset() {
         modeSelect.removeAllItems();
-        modeSelect.clientInit(messageSource);
+        modeSelect.clientInit(common);
     }
 
     private void initListener() {
 
         modeSelect.addActionListener(e -> {
-            ModeEvent modeEvent = new ModeEvent(ModeType.clientMode);
-            ModeItem modeItem = (ModeItem)modeSelect.getSelectedItem();
-            if(modeItem == null) return;
+            ModeEvent modeEvent = new ModeEvent(ProjectCommon.clientMode);
+            ModeItem modeItem = (ModeItem) modeSelect.getSelectedItem();
+            if (modeItem == null) return;
             modeEvent.setTargetMode(modeItem.getValue());
             applicationEventPublisher.publishEvent(modeEvent);
         });

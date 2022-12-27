@@ -1,6 +1,5 @@
 package com.mirsery.easy.page;
 
-import com.formdev.flatlaf.intellijthemes.FlatDraculaIJTheme;
 import com.mirsery.easy.bean.client.EasyClient;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;

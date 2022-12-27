@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * easy-websocket
  *
- * @author ls
+ * @author mirsery
  * @date 2022/12/16
  */
 @Configuration

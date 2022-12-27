@@ -1,9 +1,8 @@
 package com.mirsery.easy.page.panel;
 
+import com.mirsery.easy.ProjectCommon;
 import com.mirsery.easy.event.page.ModeEvent;
-import com.mirsery.easy.event.page.ModeType;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -44,52 +43,52 @@ public class ServerModePanel extends JPanel {
     private ApplicationEventPublisher applicationEventPublisher;
 
     @Resource
-    private MessageSource messageSource;
+    private ProjectCommon common;
 
     public ServerModePanel() {
 
     }
 
     public void init() {
-        this.noticeArea = new JTextArea("服务器模式显示区域");
+        this.noticeArea = new JTextArea("");
 
         this.noticeArea.setEditable(false);
 
         this.modeSelect = new ModeComBox();
-        this.modeSelect.serverInit(messageSource);
+        this.modeSelect.serverInit(common);
 
-        this.clearBtn = new JButton("清屏");
-        this.localLabel = new JLabel("本地端口号");
+        this.clearBtn = new JButton(common.getValue(ProjectCommon.clear));
+        this.localLabel = new JLabel(common.getValue(ProjectCommon.localPort));
         this.port = new JTextField(" ");
-        this.startBtn = new JButton("启动");
+        this.startBtn = new JButton(common.getValue(ProjectCommon.start));
 
-        this.clientLabel = new JLabel("客户端");
+        this.clientLabel = new JLabel(common.getValue(ProjectCommon.client));
 
 
         this.clientSelect = new JComboBox<>();
-        this.clientSelect.addItem("所有连接");
+        this.clientSelect.addItem(common.getValue(ProjectCommon.allConnects));
 
-        this.disconnectBtn = new JButton("断开");
+        this.disconnectBtn = new JButton(common.getValue(ProjectCommon.disconnect));
 
         this.content = new JTextArea();
-        this.sendBtn = new JButton("发送");
+        this.sendBtn = new JButton(common.getValue(ProjectCommon.send));
 
         this.lodLayout();
         this.loadComponent();
         this.initListener();
     }
 
-    public void reset(){
+    public void reset() {
         modeSelect.removeAllItems();
-        modeSelect.clientInit(messageSource);
+        modeSelect.clientInit(common);
     }
 
     private void initListener() {
 
         modeSelect.addActionListener(e -> {
-            ModeEvent modeEvent = new ModeEvent(ModeType.serverMode);
-            ModeItem modeItem = (ModeItem)modeSelect.getSelectedItem();
-            if(modeItem == null) return;
+            ModeEvent modeEvent = new ModeEvent(ProjectCommon.serverMode);
+            ModeItem modeItem = (ModeItem) modeSelect.getSelectedItem();
+            if (modeItem == null) return;
             modeEvent.setTargetMode(modeItem.getValue());
             applicationEventPublisher.publishEvent(modeEvent);
         });
