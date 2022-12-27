@@ -1,8 +1,6 @@
 package com.mirsery.easy.page.panel;
 
-import com.mirsery.easy.event.page.ModeType;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
+import com.mirsery.easy.ProjectCommon;
 
 import javax.swing.*;
 
@@ -18,18 +16,15 @@ public class ModeComBox extends JComboBox<ModeItem> {
         super();
     }
 
-    public void serverInit(MessageSource messageSource) {
-        this.addItem(new ModeItem(ModeType.serverMode, messageSource.getMessage(ModeType.serverMode,
-                null, LocaleContextHolder.getLocale())));
-        this.addItem(new ModeItem(ModeType.clientMode, messageSource.getMessage(ModeType.clientMode,
-                null, LocaleContextHolder.getLocale())));
+    public void serverInit(ProjectCommon common) {
+        this.addItem(new ModeItem(ProjectCommon.serverMode, common.getValue(ProjectCommon.serverMode)));
+        this.addItem(new ModeItem(ProjectCommon.clientMode, common.getValue(ProjectCommon.clientMode)));
+
     }
 
-    public void clientInit(MessageSource messageSource) {
-        this.addItem(new ModeItem(ModeType.clientMode, messageSource.getMessage(ModeType.clientMode,
-                null, LocaleContextHolder.getLocale())));
-        this.addItem(new ModeItem(ModeType.serverMode, messageSource.getMessage(ModeType.serverMode,
-                null, LocaleContextHolder.getLocale())));
+    public void clientInit(ProjectCommon common) {
+        this.addItem(new ModeItem(ProjectCommon.clientMode, common.getValue(ProjectCommon.clientMode)));
+        this.addItem(new ModeItem(ProjectCommon.serverMode, common.getValue(ProjectCommon.serverMode)));
 
     }
 }
