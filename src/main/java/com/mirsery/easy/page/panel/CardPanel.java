@@ -1,5 +1,6 @@
 package com.mirsery.easy.page.panel;
 
+import com.mirsery.easy.event.page.ModeType;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -9,7 +10,7 @@ import java.awt.*;
 /**
  * easy-websocket
  *
- * @author ls
+ * @author mirsery
  * @date 2022/12/27
  */
 @Component
@@ -37,26 +38,18 @@ public class CardPanel extends JPanel {
         cardLayout = new CardLayout(10, 10);
         this.setLayout(cardLayout);
 
-        this.add("serverMode", serverModePanel);
-        this.add("clientMode", clientModePanel);
-
-
-//        cardLayout.show(this,"serverMode");
-
-        JPanel panel = this;
-
-        new Thread(() -> {
-            try {
-                Thread.sleep(10 * 1000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            cardLayout.show(panel, "clientMode");
-        }).start();
-
+        this.add(ModeType.clientMode, clientModePanel);    //默认显示client模式
+        this.add(ModeType.serverMode, serverModePanel);
     }
 
-    public void change() {
-        cardLayout.show(this, "serverMode");
+    public void showMode(String mode) {
+
+        if (mode.equals(ModeType.clientMode)) {
+            clientModePanel.reset();
+        } else {
+            serverModePanel.reset();
+        }
+
+        cardLayout.show(this, mode);
     }
 }

@@ -22,7 +22,7 @@ public class BodyJPanel extends JPanel {
 
     private MessageSource messageSource;
 
-    private TextArea area;
+    private JTextArea area;
 
     private JButton jButton;
 
@@ -41,7 +41,7 @@ public class BodyJPanel extends JPanel {
     private JButton connectBtn;
     private int connectValue;
 
-    private TextArea content;
+    private JTextArea content;
 
     private JButton sendBtn;
 
@@ -55,7 +55,7 @@ public class BodyJPanel extends JPanel {
 
     private void loadLayout() {
 
-        area = new TextArea("");
+        area = new JTextArea("");
 
         jButton = new JButton(messageSource.getMessage("clear", null, LocaleContextHolder.getLocale()));
 
@@ -74,14 +74,12 @@ public class BodyJPanel extends JPanel {
         connectBtn = new JButton(messageSource.getMessage("connect", null, LocaleContextHolder.getLocale()));
         connectValue = 0;
 
-        content = new TextArea("");
+        content = new JTextArea("");
 
         sendBtn = new JButton(messageSource.getMessage("send", null, LocaleContextHolder.getLocale()));
 
         group.add(wsProtocol);
         group.add(wssProtocol);
-
-        FlatDraculaIJTheme.setup();
 
         SpringLayout springLayout = new SpringLayout();
         area.setEditable(false);
@@ -128,17 +126,6 @@ public class BodyJPanel extends JPanel {
         springLayout.putConstraint(SpringLayout.VERTICAL_CENTER, serverAddressLab, 0,
                 SpringLayout.VERTICAL_CENTER, jTextField);
 
-        /*
-         * 水平对齐
-         * **/
-        springLayout.putConstraint(SpringLayout.VERTICAL_CENTER, wsProtocol, 0,
-                SpringLayout.VERTICAL_CENTER, protocolLab);
-        springLayout.putConstraint(SpringLayout.VERTICAL_CENTER, wssProtocol, 0,
-                SpringLayout.VERTICAL_CENTER, wsProtocol);
-        springLayout.putConstraint(SpringLayout.VERTICAL_CENTER, connectBtn, 0,
-                SpringLayout.VERTICAL_CENTER, wssProtocol);
-        springLayout.putConstraint(SpringLayout.VERTICAL_CENTER, jButton, 0,
-                SpringLayout.VERTICAL_CENTER, connectBtn);
 
         springLayout.putConstraint(SpringLayout.SOUTH, protocolLab, -10, SpringLayout.NORTH,
                 content);
@@ -150,7 +137,6 @@ public class BodyJPanel extends JPanel {
                 content);
         springLayout.putConstraint(SpringLayout.SOUTH, jButton, -10, SpringLayout.NORTH,
                 content);
-
 
         springLayout.putConstraint(SpringLayout.HEIGHT, content, 20, SpringLayout.HEIGHT, sendBtn);
 
