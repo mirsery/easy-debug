@@ -37,26 +37,19 @@ public class CardPanel extends JPanel {
         cardLayout = new CardLayout(10, 10);
         this.setLayout(cardLayout);
 
+        this.add("clientMode", clientModePanel);    //默认显示client模式
         this.add("serverMode", serverModePanel);
-        this.add("clientMode", clientModePanel);
-
-
-//        cardLayout.show(this,"serverMode");
-
-        JPanel panel = this;
-
-        new Thread(() -> {
-            try {
-                Thread.sleep(10 * 1000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            cardLayout.show(panel, "clientMode");
-        }).start();
-
     }
 
-    public void change() {
+    public void changeServerMode() {
         cardLayout.show(this, "serverMode");
+    }
+
+    public void changeClientMode() {
+        cardLayout.show(this, "clientMode");
+    }
+    
+    public void showMode(String mode) {
+        cardLayout.show(this, mode);
     }
 }
