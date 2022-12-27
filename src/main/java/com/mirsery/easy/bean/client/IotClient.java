@@ -1,7 +1,7 @@
 package com.mirsery.easy.bean.client;
 
 
-import com.mirsery.easy.event.*;
+import com.mirsery.easy.event.client.*;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.exceptions.WebsocketNotConnectedException;
 import org.java_websocket.handshake.ServerHandshake;

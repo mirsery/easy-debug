@@ -84,6 +84,16 @@ public class ClientModePanel extends JPanel {
             applicationEventPublisher.publishEvent(modeEvent);
         });
 
+        clearBtn.addActionListener(e -> clearNotice());
+
+        startBtn.addActionListener(e -> {
+            System.out.println("connect to server");
+        });
+
+        sendBtn.addActionListener(e -> {
+            System.out.println("send msg to server");
+        });
+
     }
 
     private void lodLayout() {
@@ -168,6 +178,14 @@ public class ClientModePanel extends JPanel {
 
         this.add(content);
         this.add(sendBtn);
-
     }
+
+    public void appendText(String message) {
+        this.noticeArea.append(message + "\n");
+    }
+
+    public void clearNotice() {
+        this.noticeArea.setText("");
+    }
+
 }

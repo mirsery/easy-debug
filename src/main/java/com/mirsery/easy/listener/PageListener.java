@@ -1,7 +1,7 @@
 package com.mirsery.easy.listener;
 
 import com.mirsery.easy.event.page.ModeEvent;
-import com.mirsery.easy.page.panel.CardPanel;
+import com.mirsery.easy.page.CardPanel;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
