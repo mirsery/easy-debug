@@ -3,6 +3,8 @@ package com.mirsery.easy.listener;
 import com.mirsery.easy.page.panel.ClientModePanel;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+
 /**
  * easy-websocket
  *
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ClientPanelNotice implements ClientNotice {
 
+    @Resource
     private ClientModePanel clientModePanel;
 
     @Override
