@@ -21,4 +21,13 @@ public class ServerPanelNotice implements ServerNotice {
     public void recordMessage(String message) {
         serverModePanel.recordMessage(message);
     }
+
+
+    public void addClient(String remoteAddr) {
+        serverModePanel.addItem(remoteAddr);
+    }
+
+    public void removeClient(String remoteAddr) {
+        serverModePanel.removeItem(remoteAddr);
+    }
 }

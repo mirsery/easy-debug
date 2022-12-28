@@ -55,6 +55,14 @@ public class EasyServer {
         }
     }
 
+    public void sendALl(String message) {
+        if (this.wsClientManager != null) {
+            wsClientManager.getClientKeys().forEach(key -> {
+                send(key, message);
+            });
+        }
+    }
+
 
     /**
      * Normal close
@@ -70,6 +78,12 @@ public class EasyServer {
     public void initApplicationEventPublisher(IotServer iotServer) {
         iotServer.setApplicationEventPublisher(applicationEventPublisher);
         iotServer.setClientManager(wsClientManager);
+    }
+
+    public void disconnect(String remoteAddr) {
+        if (this.iotServer != null) {
+            this.iotServer.disconnect(remoteAddr);
+        }
     }
 
 }

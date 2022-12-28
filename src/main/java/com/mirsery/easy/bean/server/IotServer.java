@@ -2,6 +2,7 @@ package com.mirsery.easy.bean.server;
 
 import com.mirsery.easy.event.server.*;
 import org.java_websocket.WebSocket;
+import org.java_websocket.exceptions.WebsocketNotConnectedException;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 import org.springframework.context.ApplicationEventPublisher;
@@ -81,11 +82,18 @@ public class IotServer extends WebSocketServer {
 
     public void send(String remoteAddr, String message) {
         if (clientManager != null) {
-            clientManager.send(remoteAddr, message);
-            ServerSendEvent event = new ServerSendEvent("[send]");
-            event.setRemoteAddr(remoteAddr);
-            event.setMessage(message);
-            this.applicationEventPublisher.publishEvent(event);
+            try {
+                clientManager.send(remoteAddr, message);
+                ServerSendEvent event = new ServerSendEvent("[send]");
+                event.setRemoteAddr(remoteAddr);
+                event.setMessage(message);
+                this.applicationEventPublisher.publishEvent(event);
+            } catch (WebsocketNotConnectedException e) {
+                ErrorEvent event = new ErrorEvent("[send]");
+                event.setError(e.getMessage());
+                this.applicationEventPublisher.publishEvent(event);
+            }
+
         }
     }
 

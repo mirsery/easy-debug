@@ -4,4 +4,4 @@ spring:
   messages:
     basename: i18n/messages
 project:
-  version: V2.0.0
+  version: V2.1.0

@@ -1,6 +1,7 @@
 package com.mirsery.easy.bean.server;
 
 import org.java_websocket.WebSocket;
+import org.java_websocket.exceptions.WebsocketNotConnectedException;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -29,7 +30,7 @@ public class WsClientManager {
         }
     }
 
-    public void send(String remoteAddr, String message) {
+    public void send(String remoteAddr, String message) throws WebsocketNotConnectedException {
         WebSocket webSocket = clients.get(remoteAddr);
         if (webSocket != null) {
             webSocket.send(message);

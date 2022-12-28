@@ -27,15 +27,24 @@ public class WsServerListener {
 
     @EventListener(ClientLoginEvent.class)
     public void onOpen(ClientLoginEvent event) {
-        notices.forEach(clientNotice -> clientNotice.recordMessage(getCurrentTime(event.getTimestamp()) + " [" + event.getRemoteAddr() + "]" +
-                common.getValue(ProjectCommon.connect)));
+        notices.forEach(clientNotice -> {
+            clientNotice.recordMessage(getCurrentTime(event.getTimestamp()) + " [" + event.getRemoteAddr() + "]" +
+                    common.getValue(ProjectCommon.connect));
+
+            clientNotice.addClient(event.getRemoteAddr());
+        });
     }
 
 
     @EventListener(ClientLogoutEvent.class)
     public void onClose(ClientLogoutEvent event) {
-        notices.forEach(clientNotice -> clientNotice.recordMessage(getCurrentTime(event.getTimestamp()) + " [" + event.getRemoteAddr() + "]" +
-                common.getValue(ProjectCommon.disconnect)));
+        notices.forEach(clientNotice -> {
+
+            clientNotice.recordMessage(getCurrentTime(event.getTimestamp()) + " [" + event.getRemoteAddr() + "]" +
+                    common.getValue(ProjectCommon.disconnect));
+
+            clientNotice.removeClient(event.getRemoteAddr());
+        });
 
     }
 
@@ -52,8 +61,11 @@ public class WsServerListener {
 
     @EventListener(DisconnectEvent.class)
     public void disconnect(DisconnectEvent event) {
-        notices.forEach(clientNotice -> clientNotice.recordMessage(getCurrentTime(event.getTimestamp()) + " [" + event.getRemoteAddr() + "]" +
-                common.getValue(ProjectCommon.disconnect)));
+        notices.forEach(clientNotice -> {
+            clientNotice.recordMessage(getCurrentTime(event.getTimestamp()) + " [" + event.getRemoteAddr() + "]" +
+                    common.getValue(ProjectCommon.disconnect));
+            clientNotice.removeClient(event.getRemoteAddr());
+        });
     }
 
 
@@ -66,7 +78,7 @@ public class WsServerListener {
 
     @EventListener(ServerOKEvent.class)
     public void serverOK(ServerOKEvent event) {
-        notices.forEach(clientNotice -> clientNotice.recordMessage(getCurrentTime(event.getTimestamp())  +
+        notices.forEach(clientNotice -> clientNotice.recordMessage(getCurrentTime(event.getTimestamp()) +
                 common.getValue(ProjectCommon.success)));
 
     }
