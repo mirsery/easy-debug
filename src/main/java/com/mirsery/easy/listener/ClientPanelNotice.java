@@ -19,6 +19,6 @@ public class ClientPanelNotice implements ClientNotice {
 
     @Override
     public void recordMessage(String message) {
-        clientModePanel.appendText(message);
+        clientModePanel.recordMessage(message);
     }
 }

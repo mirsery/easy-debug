@@ -17,7 +17,15 @@ import javax.swing.*;
  */
 @Component
 public class ServerModePanel extends JPanel {
+
+    @Resource
+    private ApplicationEventPublisher applicationEventPublisher;
+
+    @Resource
+    private ProjectCommon common;
+
     private JTextArea noticeArea;
+    private JScrollPane noticePane;
 
     private ModeComBox modeSelect;
 
@@ -39,20 +47,21 @@ public class ServerModePanel extends JPanel {
 
     private JButton sendBtn;
 
-    @Resource
-    private ApplicationEventPublisher applicationEventPublisher;
-
-    @Resource
-    private ProjectCommon common;
-
     public ServerModePanel() {
 
     }
 
     public void init() {
-        this.noticeArea = new JTextArea("");
 
+        this.noticeArea = new JTextArea("");
         this.noticeArea.setEditable(false);
+        this.noticeArea.setFocusable(false);
+        this.noticePane = new JScrollPane(this.noticeArea);
+        this.noticePane.setHorizontalScrollBarPolicy(
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        this.noticePane.setVerticalScrollBarPolicy(
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        this.noticePane.setFocusable(false);
 
         this.modeSelect = new ModeComBox();
         this.modeSelect.serverInit(common);
@@ -63,7 +72,6 @@ public class ServerModePanel extends JPanel {
         this.startBtn = new JButton(common.getValue(ProjectCommon.start));
 
         this.clientLabel = new JLabel(common.getValue(ProjectCommon.client));
-
 
         this.clientSelect = new JComboBox<>();
         this.clientSelect.addItem(common.getValue(ProjectCommon.allConnects));
@@ -80,7 +88,7 @@ public class ServerModePanel extends JPanel {
 
     public void reset() {
         modeSelect.removeAllItems();
-        modeSelect.clientInit(common);
+        modeSelect.serverInit(common);
     }
 
     private void initListener() {
@@ -98,11 +106,11 @@ public class ServerModePanel extends JPanel {
     private void lodLayout() {
         SpringLayout springLayout = new SpringLayout();
 
-        springLayout.putConstraint(SpringLayout.NORTH, noticeArea, 5, SpringLayout.NORTH, this);
-        springLayout.putConstraint(SpringLayout.WEST, noticeArea, 5, SpringLayout.WEST, this);
-        springLayout.putConstraint(SpringLayout.EAST, noticeArea, -5, SpringLayout.EAST, this);
+        springLayout.putConstraint(SpringLayout.NORTH, noticePane, 5, SpringLayout.NORTH, this);
+        springLayout.putConstraint(SpringLayout.WEST, noticePane, 5, SpringLayout.WEST, this);
+        springLayout.putConstraint(SpringLayout.EAST, noticePane, -5, SpringLayout.EAST, this);
 
-        springLayout.putConstraint(SpringLayout.SOUTH, noticeArea, -10, SpringLayout.NORTH, modeSelect);
+        springLayout.putConstraint(SpringLayout.SOUTH, noticePane, -10, SpringLayout.NORTH, modeSelect);
 
         springLayout.putConstraint(SpringLayout.WEST, modeSelect, 10, SpringLayout.WEST, this);
         springLayout.putConstraint(SpringLayout.WEST, clearBtn, 5, SpringLayout.EAST, modeSelect);
@@ -188,7 +196,8 @@ public class ServerModePanel extends JPanel {
 
 
     private void loadComponent() {
-        this.add(noticeArea);
+        this.add(noticePane);
+
         this.add(modeSelect);
         this.add(clearBtn);
 
