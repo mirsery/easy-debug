@@ -4,9 +4,6 @@
 
 ## 实际运行截图
 
-![](./img/snap.png)
+![](./img/snap1.png)
 
-
-## 新版本草稿图
-
-![](./img/草稿图.png)
+![](./img/snap2.png)

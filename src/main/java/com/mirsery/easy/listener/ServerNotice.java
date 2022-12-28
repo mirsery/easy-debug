@@ -8,4 +8,8 @@ package com.mirsery.easy.listener;
  */
 public interface ServerNotice {
     void recordMessage(String message);
+
+    void addClient(String remoteAddr);
+
+    void removeClient(String remoteAddr);
 }

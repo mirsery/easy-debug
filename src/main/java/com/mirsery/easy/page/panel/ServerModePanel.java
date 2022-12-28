@@ -1,12 +1,15 @@
 package com.mirsery.easy.page.panel;
 
 import com.mirsery.easy.ProjectCommon;
+import com.mirsery.easy.bean.server.EasyServer;
 import com.mirsery.easy.event.page.ModeEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
 /**
@@ -24,6 +27,11 @@ public class ServerModePanel extends JPanel {
     @Resource
     private ProjectCommon common;
 
+    @Resource
+    private EasyServer easyServer;
+
+    private int serverBind;
+
     private JTextArea noticeArea;
     private JScrollPane noticePane;
 
@@ -39,7 +47,7 @@ public class ServerModePanel extends JPanel {
 
     private JLabel clientLabel;
 
-    private JComboBox<String> clientSelect;
+    private JComboBox<ClientItem> clientSelect;
 
     private JButton disconnectBtn;
 
@@ -74,7 +82,9 @@ public class ServerModePanel extends JPanel {
         this.clientLabel = new JLabel(common.getValue(ProjectCommon.client));
 
         this.clientSelect = new JComboBox<>();
-        this.clientSelect.addItem(common.getValue(ProjectCommon.allConnects));
+        ClientItem clientItem = new ClientItem(common.getValue(ProjectCommon.allConnects));
+        clientItem.setValue(1);
+        this.clientSelect.addItem(clientItem);
 
         this.disconnectBtn = new JButton(common.getValue(ProjectCommon.disconnect));
 
@@ -100,6 +110,67 @@ public class ServerModePanel extends JPanel {
             modeEvent.setTargetMode(modeItem.getValue());
             applicationEventPublisher.publishEvent(modeEvent);
         });
+
+
+        clearBtn.addActionListener(e -> clearNotice());
+
+        startBtn.addActionListener(e -> {
+            if (serverBind == 0) {
+                serverBind = 1;
+                String _port = port.getText().trim();
+                if ("".equals(_port)) {
+                    recordMessage(common.getValue(ProjectCommon.error) + common.getValue(ProjectCommon.urlError));
+                }
+                try {
+                    easyServer.setPort(Integer.parseInt(_port));
+                    easyServer.connect();
+
+                    startBtn.setText(common.getValue(ProjectCommon.stop));
+
+                } catch (InterruptedException ex) {
+
+                    recordMessage(common.getValue(ProjectCommon.error) + ex.getMessage());
+                }
+            } else {
+                serverBind = 0;
+                try {
+                    easyServer.close();
+                } catch (InterruptedException ex) {
+                    recordMessage(common.getValue(ProjectCommon.error) + ex.getMessage());
+                } finally {
+                    startBtn.setText(common.getValue(ProjectCommon.start));
+                }
+            }
+        });
+
+        disconnectBtn.addActionListener(e -> {
+            ClientItem item = (ClientItem) clientSelect.getSelectedItem();
+            if (item == null) return;
+            if (item.getValue() != 0) {
+                try {
+                    easyServer.close();
+                } catch (InterruptedException ex) {
+                    recordMessage(common.getValue(ProjectCommon.error) + ex.getMessage());
+                }
+            } else {
+                easyServer.disconnect(item.toString());
+            }
+        });
+
+        sendBtn.addActionListener(e -> {
+
+            String msg = content.getText().trim();
+            if ("".equals(msg)) return;
+
+            ClientItem item = (ClientItem) clientSelect.getSelectedItem();
+            if (item == null) return;
+            if (item.getValue() != 0) {
+                easyServer.sendALl(msg);
+            } else {
+                easyServer.send(item.toString(), msg);
+            }
+        });
+
 
     }
 
@@ -212,5 +283,30 @@ public class ServerModePanel extends JPanel {
         this.add(content);
         this.add(sendBtn);
 
+    }
+
+    public void recordMessage(String message) {
+
+        this.noticeArea.append(message + "\n");
+        JScrollBar vertical = this.noticePane.getVerticalScrollBar();
+        vertical.setValue(vertical.getMaximum());
+    }
+
+    public void clearNotice() {
+        this.noticeArea.setText("");
+    }
+
+    public void addItem(String remoteAddr) {
+        this.clientSelect.addItem(new ClientItem(remoteAddr));
+    }
+
+    public void removeItem(String remoteAddr) {
+        int num = this.clientSelect.getItemCount();
+        for (int i = 0; i < num; i++) {
+            if (clientSelect.getItemAt(i).toString().equals(remoteAddr)) {
+                this.clientSelect.removeItemAt(i);
+                return;
+            }
+        }
     }
 }
