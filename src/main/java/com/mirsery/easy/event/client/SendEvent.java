@@ -1,15 +1,14 @@
-package com.mirsery.easy.event;
+package com.mirsery.easy.event.client;
 
 import org.springframework.context.ApplicationEvent;
 
-
-/**
- * 消息事件
- **/
-public class MessageEvent extends ApplicationEvent {
+public class SendEvent extends ApplicationEvent {
 
     private String message;
 
+    public SendEvent(Object source) {
+        super(source);
+    }
 
     public String getMessage() {
         return message;
@@ -19,7 +18,5 @@ public class MessageEvent extends ApplicationEvent {
         this.message = message;
     }
 
-    public MessageEvent(Object source) {
-        super(source);
-    }
+
 }

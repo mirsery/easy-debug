@@ -1,4 +1,4 @@
-package com.mirsery.easy.event;
+package com.mirsery.easy.event.client;
 
 import org.springframework.context.ApplicationEvent;
 
@@ -7,7 +7,10 @@ import org.springframework.context.ApplicationEvent;
  **/
 public class OpenEvent extends ApplicationEvent {
 
+
     public OpenEvent(Object source) {
         super(source);
     }
+
+
 }

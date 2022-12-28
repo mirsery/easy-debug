@@ -1,6 +1,8 @@
-package com.mirsery.easy.page.panel;
+package com.mirsery.easy.page;
 
 import com.mirsery.easy.ProjectCommon;
+import com.mirsery.easy.page.panel.ClientModePanel;
+import com.mirsery.easy.page.panel.ServerModePanel;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;

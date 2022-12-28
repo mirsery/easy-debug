@@ -9,7 +9,7 @@ import java.net.URISyntaxException;
 
 /**
  * easy-websocket
- *
+ * @author mirsery
  * @date 2022/12/14
  */
 @Component

@@ -40,6 +40,10 @@ public class ProjectCommon {
 
     public static String allConnects = "allConnects";
 
+    public static String error = "error";
+
+    public static String urlError = "urlError";
+
 
     @Resource
     private MessageSource messageSource;

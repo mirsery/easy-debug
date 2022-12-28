@@ -1,48 +1,54 @@
 package com.mirsery.easy.listener;
 
 import com.mirsery.easy.ProjectCommon;
-import com.mirsery.easy.event.*;
+import com.mirsery.easy.event.client.*;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @Component
-public class WsListener {
-
-    @Resource
-    private Notice notice;
+public class WsClientListener {
 
     @Resource
     private ProjectCommon common;
 
+    @Resource
+    private List<ClientNotice> notices;
+
     @EventListener(OpenEvent.class)
     public void onOpen(OpenEvent event) {
-        notice.recordMessage(getCurrentTime(event.getTimestamp()) + " " +
-                common.getValue(ProjectCommon.connectServerSuccess));
+        notices.forEach(clientNotice -> clientNotice.recordMessage(getCurrentTime(event.getTimestamp()) + " " +
+                common.getValue(ProjectCommon.connectServerSuccess)));
     }
 
 
     @EventListener(CloseEvent.class)
     public void onClose(CloseEvent event) {
-        notice.recordMessage(getCurrentTime(event.getTimestamp()) + " " + common.getValue(ProjectCommon.serverClose));
+        notices.forEach(clientNotice -> clientNotice.recordMessage(getCurrentTime(event.getTimestamp()) + " " +
+                common.getValue(ProjectCommon.serverClose)));
+
     }
 
 
     @EventListener(MessageEvent.class)
     public void onMessage(MessageEvent event) {
 
-        notice.recordMessage(getCurrentTime(event.getTimestamp()) + " " +
+        notices.forEach(clientNotice -> clientNotice.recordMessage(getCurrentTime(event.getTimestamp()) + " " +
                 common.getValue(ProjectCommon.receiveNotice)
-                + " " + event.getMessage());
+                + " " + event.getMessage()));
+
+
     }
 
 
     @EventListener(NotConnectedEvent.class)
     public void NotConnected(NotConnectedEvent event) {
-        notice.recordMessage(getCurrentTime(event.getTimestamp()) + " " + common.getValue(ProjectCommon.noConnect));
+        notices.forEach(clientNotice -> clientNotice.recordMessage(getCurrentTime(event.getTimestamp()) + " " +
+                common.getValue(ProjectCommon.noConnect)));
     }
 
     /**
@@ -50,9 +56,9 @@ public class WsListener {
      ***/
     @EventListener(SendEvent.class)
     public void sendMessage(SendEvent event) {
-        notice.recordMessage(getCurrentTime(event.getTimestamp()) + " " +
+        notices.forEach(clientNotice -> clientNotice.recordMessage(getCurrentTime(event.getTimestamp()) + " " +
                 common.getValue(ProjectCommon.sendNotice)
-                + " " + event.getMessage());
+                + " " + event.getMessage()));
     }
 
     public String getCurrentTime(long timestamp) {
