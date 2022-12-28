@@ -1,12 +1,15 @@
 package com.mirsery.easy.page.panel;
 
 import com.mirsery.easy.ProjectCommon;
+import com.mirsery.easy.bean.server.EasyServer;
 import com.mirsery.easy.event.page.ModeEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
 /**
@@ -23,6 +26,11 @@ public class ServerModePanel extends JPanel {
 
     @Resource
     private ProjectCommon common;
+
+    @Resource
+    private EasyServer easyServer;
+
+    private int serverBind;
 
     private JTextArea noticeArea;
     private JScrollPane noticePane;
@@ -100,6 +108,42 @@ public class ServerModePanel extends JPanel {
             modeEvent.setTargetMode(modeItem.getValue());
             applicationEventPublisher.publishEvent(modeEvent);
         });
+
+
+        clearBtn.addActionListener(e -> clearNotice());
+
+        startBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (serverBind == 0) {
+                    serverBind = 1;
+                    String _port = port.getText().trim();
+                    if ("".equals(_port)) {
+                        recordMessage(common.getValue(ProjectCommon.error) + common.getValue(ProjectCommon.urlError));
+                    }
+                    try {
+                        easyServer.setPort(Integer.parseInt(_port));
+                        easyServer.connect();
+
+                        startBtn.setText(common.getValue(ProjectCommon.disconnect));
+
+                    } catch (InterruptedException ex) {
+
+                        recordMessage(common.getValue(ProjectCommon.error) + ex.getMessage());
+                    }
+                } else {
+                    serverBind = 0;
+                    try {
+                        easyServer.close();
+                    } catch (InterruptedException ex) {
+                        recordMessage(common.getValue(ProjectCommon.error) + ex.getMessage());
+                    } finally {
+                        startBtn.setText(common.getValue(ProjectCommon.connect));
+                    }
+                }
+            }
+        });
+
 
     }
 
@@ -212,5 +256,16 @@ public class ServerModePanel extends JPanel {
         this.add(content);
         this.add(sendBtn);
 
+    }
+
+    public void recordMessage(String message) {
+
+        this.noticeArea.append(message + "\n");
+        JScrollBar vertical = this.noticePane.getVerticalScrollBar();
+        vertical.setValue(vertical.getMaximum());
+    }
+
+    public void clearNotice() {
+        this.noticeArea.setText("");
     }
 }

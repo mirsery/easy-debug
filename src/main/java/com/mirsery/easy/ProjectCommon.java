@@ -17,7 +17,6 @@ public class ProjectCommon {
 
     public static String title = "title";
     public static String serverAddressDesc = "serverAddressDesc";
-    public static String protocol = "protocol";
     public static String connect = "connect";
     public static String disconnect = "disconnect";
     public static String send = "send";
@@ -43,6 +42,8 @@ public class ProjectCommon {
     public static String error = "error";
 
     public static String urlError = "urlError";
+
+    public static String success = "success";
 
 
     @Resource
