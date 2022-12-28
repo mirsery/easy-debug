@@ -24,7 +24,8 @@ public class ModeComBox extends JComboBox<ModeItem> {
 
     public void clientInit(ProjectCommon common) {
         this.addItem(new ModeItem(ProjectCommon.clientMode, common.getValue(ProjectCommon.clientMode)));
-        this.addItem(new ModeItem(ProjectCommon.serverMode, common.getValue(ProjectCommon.serverMode)));
+        this.setEditable(false);
+//        this.addItem(new ModeItem(ProjectCommon.serverMode, common.getValue(ProjectCommon.serverMode)));
 
     }
 }
