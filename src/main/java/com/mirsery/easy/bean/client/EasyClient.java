@@ -13,7 +13,7 @@ import java.net.URISyntaxException;
  * @date 2022/12/14
  */
 @Component
-public class EasyClient {
+public final class EasyClient {
 
     @Resource
     private ApplicationEventPublisher applicationEventPublisher;

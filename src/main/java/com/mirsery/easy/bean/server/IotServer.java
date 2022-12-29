@@ -9,7 +9,7 @@ import org.springframework.context.ApplicationEventPublisher;
 
 import java.net.InetSocketAddress;
 
-public class IotServer extends WebSocketServer {
+public final class IotServer extends WebSocketServer {
 
 
     private WsClientManager clientManager;

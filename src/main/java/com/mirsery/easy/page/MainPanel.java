@@ -16,7 +16,7 @@ import java.awt.*;
  * @date 2022/12/27
  */
 @Component
-public class CardPanel extends JPanel {
+public class MainPanel extends JPanel {
 
     @Resource
     private ClientModePanel clientModePanel;
@@ -30,11 +30,7 @@ public class CardPanel extends JPanel {
     public void init() {
         clientModePanel.init();
         serverModePanel.init();
-        loadLayoutAndComponent();
-    }
 
-
-    private void loadLayoutAndComponent() {
         cardLayout = new CardLayout(10, 10);
         this.setLayout(cardLayout);
 

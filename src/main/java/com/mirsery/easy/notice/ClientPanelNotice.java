@@ -1,5 +1,6 @@
-package com.mirsery.easy.listener;
+package com.mirsery.easy.notice;
 
+import com.mirsery.easy.notice.ClientNotice;
 import com.mirsery.easy.page.panel.ClientModePanel;
 import org.springframework.stereotype.Service;
 

@@ -2,6 +2,7 @@ package com.mirsery.easy.listener;
 
 import com.mirsery.easy.ProjectCommon;
 import com.mirsery.easy.event.server.*;
+import com.mirsery.easy.notice.ServerNotice;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 

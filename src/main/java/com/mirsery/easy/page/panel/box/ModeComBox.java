@@ -1,4 +1,4 @@
-package com.mirsery.easy.page.panel;
+package com.mirsery.easy.page.panel.box;
 
 import com.mirsery.easy.ProjectCommon;
 

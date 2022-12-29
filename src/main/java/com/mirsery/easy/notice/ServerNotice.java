@@ -1,4 +1,4 @@
-package com.mirsery.easy.listener;
+package com.mirsery.easy.notice;
 
 /**
  * easy-websocket

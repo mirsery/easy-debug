@@ -13,7 +13,7 @@ import java.net.InetSocketAddress;
  * @date 2022/12/28
  */
 @Component
-public class EasyServer {
+public final class EasyServer {
 
     @Resource
     private ApplicationEventPublisher applicationEventPublisher;

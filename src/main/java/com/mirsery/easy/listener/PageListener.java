@@ -1,7 +1,7 @@
 package com.mirsery.easy.listener;
 
 import com.mirsery.easy.event.page.ModeEvent;
-import com.mirsery.easy.page.CardPanel;
+import com.mirsery.easy.page.MainPanel;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
@@ -19,11 +19,11 @@ public class PageListener {
 
 
     @Resource
-    private CardPanel cardPanel;
+    private MainPanel mainPanel;
 
     @EventListener(ModeEvent.class)
     public void modeChange(ModeEvent event) {
         if (event.getTargetMode().equals(event.getSource().toString())) return;
-        cardPanel.showMode(event.getTargetMode());
+        mainPanel.showMode(event.getTargetMode());
     }
 }

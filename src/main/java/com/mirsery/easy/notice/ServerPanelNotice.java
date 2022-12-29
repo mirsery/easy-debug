@@ -1,4 +1,4 @@
-package com.mirsery.easy.listener;
+package com.mirsery.easy.notice;
 
 import com.mirsery.easy.page.panel.ServerModePanel;
 import org.springframework.stereotype.Service;

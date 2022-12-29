@@ -11,7 +11,7 @@ import org.springframework.context.ApplicationEventPublisher;
 
 import java.net.URI;
 
-public class IotClient extends WebSocketClient {
+public final class IotClient extends WebSocketClient {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
