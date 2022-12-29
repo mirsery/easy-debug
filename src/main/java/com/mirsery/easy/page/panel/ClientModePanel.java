@@ -101,7 +101,7 @@ public class ClientModePanel extends EasyPanelAdaptor {
         clearBtn.addActionListener(e -> clearNotice());
 
         startBtn.addActionListener(e -> {
-            if (connectValue==0) {
+            if (connectValue == 0) {
                 connectValue = 1;
                 String url = serverAddress.getText().trim();
                 if ("".equals(url)) {
@@ -113,11 +113,8 @@ public class ClientModePanel extends EasyPanelAdaptor {
                 try {
                     client.setUrl(url);
                     client.connect();
-
                     startBtn.setText(common.getValue(ProjectCommon.disconnect));
-
                 } catch (InterruptedException | URISyntaxException ex) {
-
                     recordMessage(common.getValue(ProjectCommon.error) + ex.getMessage());
                 }
             } else {
@@ -211,6 +208,11 @@ public class ClientModePanel extends EasyPanelAdaptor {
     public void reset() {
         modeSelect.removeAllItems();
         modeSelect.clientInit(common);
+    }
+
+    public void restStartBtn(){
+        connectValue = 0;
+        startBtn.setText(common.getValue(ProjectCommon.connect));
     }
 
 

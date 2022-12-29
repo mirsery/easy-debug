@@ -22,15 +22,20 @@ public class WsClientListener {
 
     @EventListener(OpenEvent.class)
     public void onOpen(OpenEvent event) {
-        notices.forEach(clientNotice -> clientNotice.recordMessage(getCurrentTime(event.getTimestamp()) + " " +
-                common.getValue(ProjectCommon.connectServerSuccess)));
+        notices.forEach(clientNotice -> clientNotice.recordMessage(
+                getCurrentTime(event.getTimestamp()) + " " +
+                        common.getValue(ProjectCommon.connectServerSuccess)));
     }
 
 
     @EventListener(CloseEvent.class)
     public void onClose(CloseEvent event) {
-        notices.forEach(clientNotice -> clientNotice.recordMessage(getCurrentTime(event.getTimestamp()) + " " +
-                common.getValue(ProjectCommon.serverClose)));
+        notices.forEach(clientNotice -> {
+            clientNotice.recordMessage(getCurrentTime(event.getTimestamp()) + " " +
+                                               common.getValue(ProjectCommon.serverClose));
+            clientNotice.resetConnectState();
+        });
+
 
     }
 
@@ -38,9 +43,10 @@ public class WsClientListener {
     @EventListener(MessageEvent.class)
     public void onMessage(MessageEvent event) {
 
-        notices.forEach(clientNotice -> clientNotice.recordMessage(getCurrentTime(event.getTimestamp()) + " " +
-                common.getValue(ProjectCommon.receiveNotice)
-                + " " + event.getMessage()));
+        notices.forEach(clientNotice -> clientNotice.recordMessage(
+                getCurrentTime(event.getTimestamp()) + " " +
+                        common.getValue(ProjectCommon.receiveNotice)
+                        + " " + event.getMessage()));
 
 
     }
@@ -48,8 +54,9 @@ public class WsClientListener {
 
     @EventListener(NotConnectedEvent.class)
     public void NotConnected(NotConnectedEvent event) {
-        notices.forEach(clientNotice -> clientNotice.recordMessage(getCurrentTime(event.getTimestamp()) + " " +
-                common.getValue(ProjectCommon.noConnect)));
+        notices.forEach(clientNotice -> clientNotice.recordMessage(
+                getCurrentTime(event.getTimestamp()) + " " +
+                        common.getValue(ProjectCommon.noConnect)));
     }
 
     /**
@@ -57,9 +64,10 @@ public class WsClientListener {
      ***/
     @EventListener(SendEvent.class)
     public void sendMessage(SendEvent event) {
-        notices.forEach(clientNotice -> clientNotice.recordMessage(getCurrentTime(event.getTimestamp()) + " " +
-                common.getValue(ProjectCommon.sendNotice)
-                + " " + event.getMessage()));
+        notices.forEach(clientNotice -> clientNotice.recordMessage(
+                getCurrentTime(event.getTimestamp()) + " " +
+                        common.getValue(ProjectCommon.sendNotice)
+                        + " " + event.getMessage()));
     }
 
     public String getCurrentTime(long timestamp) {

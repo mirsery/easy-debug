@@ -1,10 +1,8 @@
 package com.mirsery.easy.notice;
 
-import com.mirsery.easy.notice.ClientNotice;
 import com.mirsery.easy.page.panel.ClientModePanel;
-import org.springframework.stereotype.Service;
-
 import javax.annotation.Resource;
+import org.springframework.stereotype.Service;
 
 /**
  * easy-websocket
@@ -21,5 +19,10 @@ public class ClientPanelNotice implements ClientNotice {
     @Override
     public void recordMessage(String message) {
         clientModePanel.recordMessage(message);
+    }
+
+    @Override
+    public void resetConnectState() {
+        clientModePanel.restStartBtn();
     }
 }
