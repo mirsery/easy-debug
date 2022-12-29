@@ -22,7 +22,7 @@ public class WsClientListener {
 
     @EventListener(OpenEvent.class)
     public void onOpen(OpenEvent event) {
-        notices.forEach(clientNotice -> clientNotice.recordMessage(
+        notices.forEach(notice -> notice.recordMessage(
                 getCurrentTime(event.getTimestamp()) + " " +
                         common.getValue(ProjectCommon.connectServerSuccess)));
     }
@@ -30,10 +30,10 @@ public class WsClientListener {
 
     @EventListener(CloseEvent.class)
     public void onClose(CloseEvent event) {
-        notices.forEach(clientNotice -> {
-            clientNotice.recordMessage(getCurrentTime(event.getTimestamp()) + " " +
+        notices.forEach(notice -> {
+            notice.recordMessage(getCurrentTime(event.getTimestamp()) + " " +
                                                common.getValue(ProjectCommon.serverClose));
-            clientNotice.resetConnectState();
+            notice.resetConnectState();
         });
 
 
@@ -43,7 +43,7 @@ public class WsClientListener {
     @EventListener(MessageEvent.class)
     public void onMessage(MessageEvent event) {
 
-        notices.forEach(clientNotice -> clientNotice.recordMessage(
+        notices.forEach(notice -> notice.recordMessage(
                 getCurrentTime(event.getTimestamp()) + " " +
                         common.getValue(ProjectCommon.receiveNotice)
                         + " " + event.getMessage()));
@@ -54,7 +54,7 @@ public class WsClientListener {
 
     @EventListener(NotConnectedEvent.class)
     public void NotConnected(NotConnectedEvent event) {
-        notices.forEach(clientNotice -> clientNotice.recordMessage(
+        notices.forEach(notice -> notice.recordMessage(
                 getCurrentTime(event.getTimestamp()) + " " +
                         common.getValue(ProjectCommon.noConnect)));
     }
@@ -64,7 +64,7 @@ public class WsClientListener {
      ***/
     @EventListener(SendEvent.class)
     public void sendMessage(SendEvent event) {
-        notices.forEach(clientNotice -> clientNotice.recordMessage(
+        notices.forEach(notice -> notice.recordMessage(
                 getCurrentTime(event.getTimestamp()) + " " +
                         common.getValue(ProjectCommon.sendNotice)
                         + " " + event.getMessage()));

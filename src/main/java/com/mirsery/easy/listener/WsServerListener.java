@@ -28,23 +28,23 @@ public class WsServerListener {
 
     @EventListener(ClientLoginEvent.class)
     public void onOpen(ClientLoginEvent event) {
-        notices.forEach(clientNotice -> {
-            clientNotice.recordMessage(getCurrentTime(event.getTimestamp()) + " [" + event.getRemoteAddr() + "]" +
+        notices.forEach(notice -> {
+            notice.recordMessage(getCurrentTime(event.getTimestamp()) + " [" + event.getRemoteAddr() + "]" +
                     common.getValue(ProjectCommon.connect));
 
-            clientNotice.addClient(event.getRemoteAddr());
+            notice.addClient(event.getRemoteAddr());
         });
     }
 
 
     @EventListener(ClientLogoutEvent.class)
     public void onClose(ClientLogoutEvent event) {
-        notices.forEach(clientNotice -> {
+        notices.forEach(notice -> {
 
-            clientNotice.recordMessage(getCurrentTime(event.getTimestamp()) + " [" + event.getRemoteAddr() + "]" +
+            notice.recordMessage(getCurrentTime(event.getTimestamp()) + " [" + event.getRemoteAddr() + "]" +
                     common.getValue(ProjectCommon.disconnect));
 
-            clientNotice.removeClient(event.getRemoteAddr());
+            notice.removeClient(event.getRemoteAddr());
         });
 
     }
@@ -53,7 +53,7 @@ public class WsServerListener {
     @EventListener(ClientMessageEvent.class)
     public void onMessage(ClientMessageEvent event) {
 
-        notices.forEach(clientNotice -> clientNotice.recordMessage(getCurrentTime(event.getTimestamp()) + " [" + event.getRemoteAddr() + "]" +
+        notices.forEach(notice -> notice.recordMessage(getCurrentTime(event.getTimestamp()) + " [" + event.getRemoteAddr() + "]" +
                 common.getValue(ProjectCommon.receiveNotice)
                 + " " + event.getMessage()));
 
@@ -62,24 +62,24 @@ public class WsServerListener {
 
     @EventListener(DisconnectEvent.class)
     public void disconnect(DisconnectEvent event) {
-        notices.forEach(clientNotice -> {
-            clientNotice.recordMessage(getCurrentTime(event.getTimestamp()) + " [" + event.getRemoteAddr() + "]" +
+        notices.forEach(notice -> {
+            notice.recordMessage(getCurrentTime(event.getTimestamp()) + " [" + event.getRemoteAddr() + "]" +
                     common.getValue(ProjectCommon.disconnect));
-            clientNotice.removeClient(event.getRemoteAddr());
+            notice.removeClient(event.getRemoteAddr());
         });
     }
 
 
     @EventListener(ErrorEvent.class)
     public void NotBind(ErrorEvent event) {
-        notices.forEach(clientNotice -> clientNotice.recordMessage(getCurrentTime(event.getTimestamp()) + " " +
+        notices.forEach(notice -> notice.recordMessage(getCurrentTime(event.getTimestamp()) + " " +
                 common.getValue(ProjectCommon.error) + event.getError()));
     }
 
 
     @EventListener(ServerOKEvent.class)
     public void serverOK(ServerOKEvent event) {
-        notices.forEach(clientNotice -> clientNotice.recordMessage(getCurrentTime(event.getTimestamp()) +
+        notices.forEach(notice -> notice.recordMessage(getCurrentTime(event.getTimestamp()) +
                 common.getValue(ProjectCommon.success)));
 
     }
@@ -87,7 +87,7 @@ public class WsServerListener {
 
     @EventListener(ServerSendEvent.class)
     public void sendMessage(ServerSendEvent event) {
-        notices.forEach(clientNotice -> clientNotice.recordMessage(getCurrentTime(event.getTimestamp()) + " [" + event.getRemoteAddr() + "]" +
+        notices.forEach(notice -> notice.recordMessage(getCurrentTime(event.getTimestamp()) + " [" + event.getRemoteAddr() + "]" +
                 common.getValue(ProjectCommon.sendNotice)
                 + " " + event.getMessage()));
     }
