@@ -3,23 +3,20 @@ package com.mirsery.easy.page.panel;
 import com.mirsery.easy.ProjectCommon;
 import com.mirsery.easy.bean.client.EasyClient;
 import com.mirsery.easy.event.page.ModeEvent;
-import com.mirsery.easy.page.panel.box.ModeComBox;
-import com.mirsery.easy.page.panel.box.ModeItem;
-import com.mirsery.easy.page.panel.easy.EasyPanelAdaptor;
-import java.awt.LayoutManager;
+import com.mirsery.easy.page.easy.EasySpringLayout;
+import com.mirsery.easy.page.easy.custom.AreaWithScroll;
+import com.mirsery.easy.page.easy.custom.box.ModeComBox;
+import com.mirsery.easy.page.easy.custom.box.ModeItem;
+import com.mirsery.easy.page.easy.EasyPanelAdaptor;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
+import javax.swing.*;
+import java.awt.*;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.List;
-import javax.annotation.Resource;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.SpringLayout;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.stereotype.Component;
 
 
 /**
@@ -40,9 +37,7 @@ public class ClientModePanel extends EasyPanelAdaptor {
     @Resource
     private EasyClient client;
 
-    private JScrollPane noticePane;
-
-    private JTextArea noticeArea;
+    private AreaWithScroll noticeAreaScroll;
 
     private ModeComBox modeSelect;
 
@@ -61,14 +56,9 @@ public class ClientModePanel extends EasyPanelAdaptor {
     private int connectValue = 0;
 
     protected List<java.awt.Component> initComponent() {
-        this.noticeArea = new JTextArea();
-        this.noticeArea.setEditable(false);
 
-        this.noticePane = new JScrollPane(this.noticeArea);
-        this.noticePane.setHorizontalScrollBarPolicy(
-                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        this.noticePane.setVerticalScrollBarPolicy(
-                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        this.noticeAreaScroll = new AreaWithScroll();
+
 
         this.modeSelect = new ModeComBox();
         this.modeSelect.clientInit(common);
@@ -82,8 +72,8 @@ public class ClientModePanel extends EasyPanelAdaptor {
         this.content = new JTextArea();
         this.sendBtn = new JButton(common.getValue(ProjectCommon.send));
 
-        return Arrays.asList(noticePane, modeSelect, clearBtn, addressLabel, serverAddress,
-                             startBtn, content, sendBtn);
+        return Arrays.asList(noticeAreaScroll.getComponent(), modeSelect, clearBtn, addressLabel, serverAddress,
+                startBtn, content, sendBtn);
     }
 
     protected void initListener() {
@@ -91,7 +81,7 @@ public class ClientModePanel extends EasyPanelAdaptor {
         modeSelect.addActionListener(e -> {
             ModeEvent modeEvent = new ModeEvent(ProjectCommon.clientMode);
             ModeItem modeItem = (ModeItem) modeSelect.getSelectedItem();
-            if (modeItem==null) {
+            if (modeItem == null) {
                 return;
             }
             modeEvent.setTargetMode(modeItem.getValue());
@@ -134,74 +124,28 @@ public class ClientModePanel extends EasyPanelAdaptor {
     }
 
     protected LayoutManager lodLayout() {
-        SpringLayout springLayout = new SpringLayout();
-
-        springLayout.putConstraint(SpringLayout.NORTH, noticePane, 5, SpringLayout.NORTH, this);
-        springLayout.putConstraint(SpringLayout.WEST, noticePane, 5, SpringLayout.WEST, this);
-        springLayout.putConstraint(SpringLayout.EAST, noticePane, -5, SpringLayout.EAST, this);
-
-        springLayout.putConstraint(SpringLayout.SOUTH, noticePane, -10, SpringLayout.NORTH,
-                                   modeSelect);
-
-        springLayout.putConstraint(SpringLayout.WEST, modeSelect, 10, SpringLayout.WEST, this);
-        springLayout.putConstraint(SpringLayout.WEST, clearBtn, 5, SpringLayout.EAST, modeSelect);
-
-        springLayout.putConstraint(SpringLayout.SOUTH, modeSelect, -10, SpringLayout.NORTH,
-                                   addressLabel);
-        springLayout.putConstraint(SpringLayout.SOUTH, modeSelect, -10, SpringLayout.NORTH,
-                                   serverAddress);
-        springLayout.putConstraint(SpringLayout.SOUTH, modeSelect, -10, SpringLayout.NORTH,
-                                   startBtn);
-
-        springLayout.putConstraint(SpringLayout.SOUTH, clearBtn, -10, SpringLayout.NORTH,
-                                   addressLabel);
-        springLayout.putConstraint(SpringLayout.SOUTH, clearBtn, -10, SpringLayout.NORTH,
-                                   serverAddress);
-        springLayout.putConstraint(SpringLayout.SOUTH, clearBtn, -10, SpringLayout.NORTH, startBtn);
-
-        springLayout.putConstraint(SpringLayout.WEST, addressLabel, 10, SpringLayout.WEST,
-                                   this);
-        springLayout.putConstraint(SpringLayout.WEST, serverAddress, 5, SpringLayout.EAST,
-                                   addressLabel);
-        springLayout.putConstraint(SpringLayout.EAST, serverAddress, -10, SpringLayout.WEST,
-                                   startBtn);
-
-        springLayout.putConstraint(SpringLayout.EAST, startBtn, -10, SpringLayout.EAST,
-                                   this);
-
-
-        /*
-         * 水平对齐
-         * **/
-        springLayout.putConstraint(SpringLayout.VERTICAL_CENTER, modeSelect, 0,
-                                   SpringLayout.VERTICAL_CENTER, clearBtn);
-
-        /*
-         * 水平对齐
-         * **/
-        springLayout.putConstraint(SpringLayout.VERTICAL_CENTER, addressLabel, 0,
-                                   SpringLayout.VERTICAL_CENTER, serverAddress);
-        springLayout.putConstraint(SpringLayout.VERTICAL_CENTER, startBtn, 0,
-                                   SpringLayout.VERTICAL_CENTER, serverAddress);
-
-        springLayout.putConstraint(SpringLayout.SOUTH, addressLabel, -10, SpringLayout.NORTH,
-                                   content);
-        springLayout.putConstraint(SpringLayout.SOUTH, serverAddress, -10, SpringLayout.NORTH,
-                                   content);
-        springLayout.putConstraint(SpringLayout.SOUTH, startBtn, -10, SpringLayout.NORTH,
-                                   content);
-
+        EasySpringLayout easySpringLayout = new EasySpringLayout();
+        SpringLayout springLayout = easySpringLayout.getSpringLayout();
         springLayout.putConstraint(SpringLayout.HEIGHT, content, 20, SpringLayout.HEIGHT, sendBtn);
-
-        springLayout.putConstraint(SpringLayout.WEST, content, 5, SpringLayout.WEST, this);
-        springLayout.putConstraint(SpringLayout.SOUTH, content, -10, SpringLayout.SOUTH, this);
-        springLayout.putConstraint(SpringLayout.EAST, content, -10, SpringLayout.WEST, sendBtn);
-        springLayout.putConstraint(SpringLayout.VERTICAL_CENTER, sendBtn, 0,
-                                   SpringLayout.VERTICAL_CENTER, content);
-
-        springLayout.putConstraint(SpringLayout.EAST, sendBtn, -10, SpringLayout.EAST, this);
+        /* 设置水平对齐，同一row */
+        easySpringLayout.rowVerticalCenter(modeSelect, clearBtn);
+        easySpringLayout.rowVerticalCenter(addressLabel, serverAddress, startBtn);
+        easySpringLayout.rowVerticalCenter(sendBtn, content);
+        /* 组件水平载入顺序以及间隔设置，自动伸缩组件定义 */
+        easySpringLayout.addAutoRowComponent(this, 5, 0, noticeAreaScroll.getComponent());
+        easySpringLayout.addRowComponent(this, 10, modeSelect, clearBtn);
+        easySpringLayout.addAutoRowComponent(this, 5, 1, addressLabel, serverAddress, startBtn);
+        easySpringLayout.addAutoRowComponent(this, 5, 0, content, sendBtn);
+        /* row间距设置以及自动伸缩row设置 */
+        springLayout.putConstraint(SpringLayout.NORTH, noticeAreaScroll.getComponent(), 5, SpringLayout.NORTH, this);
+        springLayout.putConstraint(SpringLayout.SOUTH, noticeAreaScroll.getComponent(), -10, SpringLayout.NORTH, modeSelect);
+        springLayout.putConstraint(SpringLayout.SOUTH, modeSelect, -10, SpringLayout.NORTH, startBtn);
+        springLayout.putConstraint(SpringLayout.SOUTH, clearBtn, -10, SpringLayout.NORTH, startBtn);
+        springLayout.putConstraint(SpringLayout.SOUTH, startBtn, -10, SpringLayout.NORTH, content);
+        springLayout.putConstraint(SpringLayout.SOUTH, content, -5, SpringLayout.SOUTH, this);
 
         return springLayout;
+
     }
 
 
@@ -210,21 +154,18 @@ public class ClientModePanel extends EasyPanelAdaptor {
         modeSelect.clientInit(common);
     }
 
-    public void restStartBtn(){
+    public void restStartBtn() {
         connectValue = 0;
         startBtn.setText(common.getValue(ProjectCommon.connect));
     }
 
 
     public void recordMessage(String message) {
-
-        this.noticeArea.append(message + "\n");
-        JScrollBar vertical = this.noticePane.getVerticalScrollBar();
-        vertical.setValue(vertical.getMaximum());
+        noticeAreaScroll.recordMessage(message);
     }
 
     public void clearNotice() {
-        this.noticeArea.setText("");
+        noticeAreaScroll.cleanArea();
     }
 
 }

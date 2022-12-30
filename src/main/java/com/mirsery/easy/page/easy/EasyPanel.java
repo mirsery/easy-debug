@@ -1,4 +1,4 @@
-package com.mirsery.easy.page.panel.easy;
+package com.mirsery.easy.page.easy;
 
 import java.awt.Component;
 import java.awt.LayoutManager;

@@ -1,4 +1,4 @@
-package com.mirsery.easy.page.panel.box;
+package com.mirsery.easy.page.easy.custom.box;
 
 /**
  * easy-websocket
