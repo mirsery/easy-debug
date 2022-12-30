@@ -181,14 +181,14 @@ public class ServerModePanel extends EasyPanelAdaptor {
         /* 设置水平对齐，同一row */
         easySpringLayout.rowVerticalCenter(modeSelect, clearBtn);
         easySpringLayout.rowVerticalCenter(localLabel, port, startBtn);
-        easySpringLayout.rowVerticalCenter(clientLabel, clientSelect,disconnectBtn);
+        easySpringLayout.rowVerticalCenter(clientLabel, clientSelect, disconnectBtn);
         easySpringLayout.rowVerticalCenter(sendBtn, content);
         /* 组件水平载入顺序以及间隔设置，自动伸缩组件定义 */
-        easySpringLayout.addAutoRowComponent(this, 5, 0, noticeAreaScroll.getComponent());
+        easySpringLayout.addAutoRowComponent(this, 0, noticeAreaScroll.getComponent());
         easySpringLayout.addRowComponent(this, 10, modeSelect, clearBtn);
-        easySpringLayout.addRowComponent(this, 5,  localLabel, port, startBtn);
-        easySpringLayout.addRowComponent(this, 5,  clientLabel, clientSelect, disconnectBtn);
-        easySpringLayout.addAutoRowComponent(this, 5, 0, content, sendBtn);
+        easySpringLayout.addRowComponent(this, 5, localLabel, port, startBtn);
+        easySpringLayout.addRowComponent(this, 5, clientLabel, clientSelect, disconnectBtn);
+        easySpringLayout.addAutoRowComponent(this, 0, content, sendBtn);
         /* row间距设置以及自动伸缩row设置 */
         springLayout.putConstraint(SpringLayout.NORTH, noticeAreaScroll.getComponent(), 5, SpringLayout.NORTH, this);
         springLayout.putConstraint(SpringLayout.SOUTH, noticeAreaScroll.getComponent(), -10, SpringLayout.NORTH, modeSelect);

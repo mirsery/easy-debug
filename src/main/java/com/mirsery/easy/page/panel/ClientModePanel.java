@@ -132,10 +132,11 @@ public class ClientModePanel extends EasyPanelAdaptor {
         easySpringLayout.rowVerticalCenter(addressLabel, serverAddress, startBtn);
         easySpringLayout.rowVerticalCenter(sendBtn, content);
         /* 组件水平载入顺序以及间隔设置，自动伸缩组件定义 */
-        easySpringLayout.addAutoRowComponent(this, 5, 0, noticeAreaScroll.getComponent());
+        easySpringLayout.addAutoRowComponent(this,  0, noticeAreaScroll.getComponent());
         easySpringLayout.addRowComponent(this, 10, modeSelect, clearBtn);
-        easySpringLayout.addAutoRowComponent(this, 5, 1, addressLabel, serverAddress, startBtn);
-        easySpringLayout.addAutoRowComponent(this, 5, 0, content, sendBtn);
+        easySpringLayout.addAutoRowComponent(this,  1, addressLabel, serverAddress, startBtn);
+        easySpringLayout.addAutoRowComponent(this,  0, content, sendBtn);
+
         /* row间距设置以及自动伸缩row设置 */
         springLayout.putConstraint(SpringLayout.NORTH, noticeAreaScroll.getComponent(), 5, SpringLayout.NORTH, this);
         springLayout.putConstraint(SpringLayout.SOUTH, noticeAreaScroll.getComponent(), -10, SpringLayout.NORTH, modeSelect);

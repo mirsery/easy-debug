@@ -31,8 +31,15 @@ public class EasySpringLayout {
         springLayout.putConstraint(SpringLayout.EAST, component[component.length - 1], -5, SpringLayout.EAST, container);
     }
 
+    public void addAutoRowComponent(java.awt.Component container, int autoIndex, java.awt.Component... component) {
+        this.addAutoRowComponent(container, 5, autoIndex, component);
+    }
+
+    public void addRowComponent(java.awt.Component container, java.awt.Component... component) {
+        this.addRowComponent(container, 5, component);
+    }
+
     public void addRowComponent(java.awt.Component container, int interval, java.awt.Component... component) {
-        //interval default's value is 5.
         rowHead(component[0], container);
         for (int i = 0; i + 1 < component.length; i++) {
             springLayout.putConstraint(SpringLayout.WEST, component[i + 1], interval, SpringLayout.EAST, component[i]);
