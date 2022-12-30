@@ -7,3 +7,15 @@
 ![](./img/snap1.png)
 
 ![](./img/snap2.png)
+
+## 项目打包
+
+```shell
+mvn clean package
+```
+
+## 项目运行
+- 下载源码直接在idea中运行
+- 直接运行jar包
+- 下载打包后的exe，在对应目录中运行
+- mac os 下载对应的app进行运行（未完成)
