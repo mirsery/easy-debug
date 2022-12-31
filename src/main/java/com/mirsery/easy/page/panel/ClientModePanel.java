@@ -139,12 +139,10 @@ public class ClientModePanel extends EasyPanelAdaptor {
 
         /* row间距设置以及自动伸缩row设置 */
         springLayout.putConstraint(SpringLayout.NORTH, noticeAreaScroll.getComponent(), 5, SpringLayout.NORTH, this);
-        springLayout.putConstraint(SpringLayout.SOUTH, noticeAreaScroll.getComponent(), -10, SpringLayout.NORTH, modeSelect);
-        springLayout.putConstraint(SpringLayout.SOUTH, modeSelect, -10, SpringLayout.NORTH, startBtn);
-        springLayout.putConstraint(SpringLayout.SOUTH, clearBtn, -10, SpringLayout.NORTH, startBtn);
+        springLayout.putConstraint(SpringLayout.SOUTH,noticeAreaScroll.getComponent(),-10,SpringLayout.NORTH,clearBtn);
+        springLayout.putConstraint(SpringLayout.SOUTH,clearBtn,-10,SpringLayout.NORTH,startBtn);
         springLayout.putConstraint(SpringLayout.SOUTH, startBtn, -10, SpringLayout.NORTH, content);
         springLayout.putConstraint(SpringLayout.SOUTH, content, -5, SpringLayout.SOUTH, this);
-
         return springLayout;
 
     }

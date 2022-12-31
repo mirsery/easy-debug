@@ -189,10 +189,10 @@ public class ServerModePanel extends EasyPanelAdaptor {
         easySpringLayout.addRowComponent(this, 5, localLabel, port, startBtn);
         easySpringLayout.addRowComponent(this, 5, clientLabel, clientSelect, disconnectBtn);
         easySpringLayout.addAutoRowComponent(this, 0, content, sendBtn);
+
         /* row间距设置以及自动伸缩row设置 */
         springLayout.putConstraint(SpringLayout.NORTH, noticeAreaScroll.getComponent(), 5, SpringLayout.NORTH, this);
-        springLayout.putConstraint(SpringLayout.SOUTH, noticeAreaScroll.getComponent(), -10, SpringLayout.NORTH, modeSelect);
-        springLayout.putConstraint(SpringLayout.SOUTH, modeSelect, -10, SpringLayout.NORTH, startBtn);
+        springLayout.putConstraint(SpringLayout.SOUTH, noticeAreaScroll.getComponent(), -10, SpringLayout.NORTH, clearBtn);
         springLayout.putConstraint(SpringLayout.SOUTH, clearBtn, -10, SpringLayout.NORTH, startBtn);
         springLayout.putConstraint(SpringLayout.SOUTH, startBtn, -10, SpringLayout.NORTH, disconnectBtn);
         springLayout.putConstraint(SpringLayout.SOUTH, disconnectBtn, -10, SpringLayout.NORTH, content);
